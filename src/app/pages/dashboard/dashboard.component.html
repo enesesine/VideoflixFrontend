@@ -1,0 +1,54 @@
+<!-- ========= Genre-Reihen ========= -->
+<div *ngFor="let cat of categories" class="genre-row">
+  <h2>{{ cat.name }}</h2>
+
+  <div class="thumb-strip">
+    <div
+      *ngFor="let vid of videosByCategory(cat.id)"
+      class="thumb-card"
+      (click)="open(vid)"
+    >
+      <img
+        [src]="vid.thumbnail || 'assets/placeholder.jpg'"
+        alt="{{ vid.title }}"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- ========= Detail-Panel ========= -->
+<div *ngIf="active" class="overlay" (keydown.escape)="close()" tabindex="0">
+  <div class="detail-box">
+    <!-- Thumbnail -->
+    <img
+      class="thumb-large"
+      [src]="active.thumbnail || 'assets/placeholder.jpg'"
+      alt="{{ active.title }}"
+    />
+
+    <!-- Titel + Genre/Length -->
+    <div class="info-row">
+      <h1>{{ active.title }}</h1>
+      <p class="meta">
+        Genre: {{ displayCategory(active.category) }} 
+      
+      </p>
+    </div>
+
+    <!-- Beschreibung -->
+    <p class="description">
+      <strong>Description:</strong><br />
+      {{ active.description || 'Keine Beschreibung hinterlegt.' }}
+    </p>
+
+    <!-- Trailer -->
+    <video
+      class="player"
+      controls
+      [src]="active.safeSrc"
+    ></video>
+  </div>
+
+  <!-- Close -->
+  <button class="close-btn" (click)="close()">×</button>
+</div>

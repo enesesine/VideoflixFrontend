@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+  background: #141414;   /* dunkles Grau – Netflix-Style */
+  color: #6b1bff;           /* Standard-Schrift in Weiß für Kontrast */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar {
+  height: 8px;      /* horizontale Leiste */
+  width:  8px;      /* vertikale Leiste   */
+}
+::-webkit-scrollbar-track {
+  background: #141414;
+}
+::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}

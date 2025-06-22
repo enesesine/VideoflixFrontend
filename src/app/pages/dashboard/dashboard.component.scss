@@ -1,0 +1,151 @@
+/* =========================================================
+   Dashboard Styles – kompakter Detail-Panel
+   ========================================================= */
+
+/* ---------- Grundfarben ---------- */
+:root {
+  --brand: #6b1bff;      /* lila Highlight */
+  --bg:    #141414;      /* Dark Background */
+}
+
+/* ---------- Reihen-Heading ---------- */
+.genre-row h2 {
+  margin: 1.3rem 0 0.4rem;
+  font-size: 1.3rem;
+  color: #fff;
+}
+
+/* ---------- horizontale Thumbnails ---------- */
+.thumb-strip {
+  display: flex;
+  gap: 0.9rem;
+  overflow-x: auto;
+  padding-bottom: 0.4rem;
+   user-select: none;
+}
+
+/* ---------- Thumbnail-Card ---------- */
+.thumb-card {
+  position: relative;          /* für Vignette-Overlay */
+  flex: 0 0 290px;
+  transition: transform 0.2s;
+  cursor: default;   
+   user-select: none;          
+
+  &:hover { transform: scale(1.05); }
+
+  /* Bild selbst */
+  img {
+    width: 100%;
+    border-radius: 8px;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    cursor: pointer;           /* Hand-Cursor nur auf dem Bild */
+  }
+
+  /* schwarze Vignette */
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background: radial-gradient(
+      circle at center,
+      transparent 40%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    pointer-events: none;      /* Overlay selbst nicht klickbar */
+  }
+
+  &:hover::after { opacity: 1; }
+}
+
+/* =========================================================
+   Overlay  ➜  Panel-Box (kleiner)
+   ========================================================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  color: #fff;
+  overflow-y: auto;
+  outline: none;               /* Escape-Hotkey */
+}
+
+/* ---------- Box ---------- */
+.detail-box {
+  background: #1d1d1d4f;       /* halb­transparentes Grau */
+  padding: 1.2rem 1.6rem;
+  border-radius: 10px;
+  width: 88%;
+  max-width: 650px;
+  max-height: 80vh;            /* zieht sich nicht über ganzen Screen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  overflow-y: auto;
+}
+
+/* Thumbnail & Video – gleiche Breite */
+.thumb-large,
+.player {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Info-Zeile */
+.info-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.info-row h1 {
+  margin: 0;
+  font-size: 2.4rem;           /* größerer Titel */
+  color: var(--brand);
+  line-height: 1;
+}
+
+.meta {
+  font-size: 0.85rem;
+  color: #ccc;
+  white-space: nowrap;
+}
+
+/* Beschreibung */
+.description {
+  width: 100%;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  text-align: left;
+}
+
+/* Trailer */
+.player {
+  object-fit: cover;
+  max-height: 30vh;            /* kompakter */
+  border-radius: 8px;
+}
+
+/* ---------- Close-Button ---------- */
+.close-btn {
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  font-size: 2.2rem;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}

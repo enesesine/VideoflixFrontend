@@ -1,0 +1,32 @@
+<!-- src/app/pages/register/register.component.html -->
+<header class="header">
+    <img src="/Logo.png" alt="Videoflix" class="logo" />
+  <!-- Auf Login verlinken -->
+  <button class="btn login-btn" routerLink="/login">Log in</button>
+</header>
+
+<section class="hero">
+<h1> Movies, TV shows and <span class="highlight">more.</span> </h1>
+  <p>Enter your email to create or restart your subscription.</p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
+    <input
+      type="email"
+      formControlName="email"
+      placeholder="Email Address"
+      required
+    />
+    <button
+      type="submit"
+      class="btn signup-btn"
+      [disabled]="form.get('email')?.invalid"
+    >
+      Sign Up
+    </button>
+  </form>
+</section>
+
+<footer class="footer">
+  <a href="/privacy">Datenschutz</a>
+  <a href="/imprint">Impressum</a>
+</footer>

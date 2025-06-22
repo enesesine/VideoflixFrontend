@@ -1,0 +1,72 @@
+<header class="header">
+  <img src="/Logo.png" alt="Videoflix" class="logo" />
+  <button class="btn login-btn" routerLink="/login">Log in</button>
+</header>
+
+<section class="hero">
+  <h1>
+    Movies, TV shows and <span class="highlight">more.</span>
+  </h1>
+  <p>Enter your details to create your account.</p>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
+    <!-- Email -->
+    <div class="input-group">
+      <img src="/SignUp/mail.png" alt="Mail icon" />
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email Address"
+      />
+    </div>
+
+    <!-- Password -->
+    <div class="input-group">
+      <img src="/SignUp/password.png" alt="Password icon" />
+      <input
+        [type]="showPassword ? 'text' : 'password'"
+        formControlName="password"
+        placeholder="Enter a password"
+      />
+      <button type="button" class="eye-btn" (click)="togglePassword()">
+        <img
+          [src]="
+            showPassword
+              ? '/SignUp/visibility_off.png'
+              : '/SignUp/visibility.png'
+          "
+          alt="Toggle visibility"
+        />
+      </button>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="input-group">
+      <img src="/SignUp/password.png" alt="Password icon" />
+      <input
+        [type]="showConfirmPassword ? 'text' : 'password'"
+        formControlName="confirmPassword"
+        placeholder="Confirm Password"
+      />
+      <button type="button" class="eye-btn" (click)="toggleConfirmPassword()">
+        <img
+          [src]="
+            showConfirmPassword
+              ? '/SignUp/visibility_off.png'
+              : '/SignUp/visibility.png'
+          "
+          alt="Toggle visibility"
+        />
+      </button>
+    </div>
+
+    <button type="submit" class="btn signup-btn" [disabled]="form.invalid">
+      Sign Up
+    </button>
+  </form>
+</section>
+
+<footer class="footer">
+  <a routerLink="/privacy">Datenschutz</a>
+  <a routerLink="/imprint">Impressum</a>
+</footer>
