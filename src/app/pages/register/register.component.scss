@@ -3,7 +3,14 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: #141414;
+  /* Hintergrundbild + Abdunklung + Vignette */
+  background:
+    /* Vignette-Rand */
+    radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 1.9)),
+    /* gleichmäßige Abdunklung */
+    linear-gradient(rgba(0, 0, 0, 0.699), rgb(0, 0, 0, 0.699)),
+    /* das eigentliche Bild */
+    url('/bg_images/startBG.jpg') center/cover no-repeat;
   color: #fff;
 }
 
@@ -16,20 +23,22 @@
 
   .logo {
     height: 30px;
+    cursor: pointer;
   }
 
   .login-btn {
-    background: #2e3edf;
+    background: #6b1bff;
     color: #fff;
     border: none;
     border-radius: 20px;
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-weight: 600;
-    transition: opacity 0.2s;
+    transition: opacity 0.2s, transform 0.2s;
 
     &:hover {
       opacity: 0.9;
+      transform: translateY(-2px);
     }
   }
 }
@@ -49,6 +58,12 @@
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #fff;
+    transition: color 0.3s, transform 0.3s;
+
+    &:hover {
+      color: #6b1bff;
+      transform: scale(1.25);
+    }
   }
 
   p {
@@ -58,7 +73,7 @@
     color: #eee;
   }
 
-    .signup-form {
+  .signup-form {
     display: flex;
     gap: 0.5rem;
     width: 100%;
@@ -100,17 +115,18 @@
     }
 
     .signup-btn {
-      background: #2e3edf;
+      background: #6b1bff;
       color: #fff;
       border: none;
       border-radius: 20px;
       padding: 0.75rem 1.25rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: opacity 0.2s, transform 0.2s;
 
       &:hover {
         opacity: 0.9;
+        transform: translateY(-5px);
       }
       &:disabled {
         opacity: 0.6;
@@ -126,16 +142,16 @@
   justify-content: center;
   gap: 2rem;
   padding: 1rem;
-  background: #141414;
 
   a {
     color: #fff;
     font-size: 0.85rem;
     text-decoration: none;
-    transition: text-decoration 0.2s;
+    transition: color 0.3s, transform 0.2s;
 
     &:hover {
-      text-decoration: underline;
+      color: #6b1bff;
+      transform: translateY(-2px);
     }
   }
 }

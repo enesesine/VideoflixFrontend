@@ -8,41 +8,35 @@
   <h1>
     Movies, TV shows and <span class="highlight">more.</span>
   </h1>
-  <p>Enter your email to create or restart your subscription.</p>
+  <p>
+    Enter your email to <span class="highlight">create</span> or restart your subscription.
+  </p>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
-    
-    <!-- Hier das Input + Errors in einen Wrapper -->
     <div class="input-wrapper">
       <input
         type="email"
         formControlName="email"
         placeholder="Email Address"
         required
-        (blur)="form.get('email')?.markAsTouched()"
+        (blur)="emailCtrl.markAsTouched()"
       />
 
       <!-- Field‐Validierungsfehler -->
-      <div class="error-messages" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-        <small *ngIf="form.get('email')?.errors?.['required']">
+      <div class="error-messages" *ngIf="emailCtrl.touched && emailCtrl.invalid">
+        <small *ngIf="emailCtrl.hasError('required')">
           Please enter your email address.
         </small>
-        <small *ngIf="form.get('email')?.errors?.['email']">
+        <small *ngIf="emailCtrl.hasError('email')">
           Please enter a valid email address.
         </small>
-      </div>
-
-      <!-- Server‐Fehler -->
-      <div class="error-messages" *ngIf="serverError">
-        <small>{{ serverError }}</small>
+        <small *ngIf="emailCtrl.hasError('pattern')">
+          Please include a “.” followed by at least two letters.
+        </small>
       </div>
     </div>
 
-    <button
-      type="submit"
-      class="btn signup-btn"
-      [disabled]="form.invalid"
-    >
+    <button type="submit" class="btn signup-btn" [disabled]="form.invalid">
       Sign Up
     </button>
   </form>

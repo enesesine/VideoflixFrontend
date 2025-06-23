@@ -37,7 +37,7 @@ export class SignupComponent implements OnInit {
   successMessage: string | null = null;
 
   ngOnInit(): void {
-    // Query-Parameter auslesen und E-Mail vorbefüllen
+    // Read query‐param and prefill email if given
     this.route.queryParams.subscribe(params => {
       const email = params['email'];
       if (email) {
@@ -52,34 +52,28 @@ export class SignupComponent implements OnInit {
       : { mismatch: true };
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-
-    this.serverError = null;
-    const email    = this.form.value.email!;
-    const password = this.form.value.password!;
-
-    this.auth.register(email, email, password).subscribe({
-      next: () => {
-        // Success-Meldung anzeigen
-        this.successMessage = 
-          'Vielen Dank! Eine Bestätigungs-E-Mail wurde an ' +
-          email + 
-          ' gesendet. Bitte überprüfe dein Postfach.';
-        // Formular deaktivieren
-        this.form.disable();
-      },
-      error: err => {
-        this.serverError =
-          err.error?.email?.[0]
-          || err.error?.non_field_errors?.[0]
-          || 'Registrierung fehlgeschlagen. Bitte versuche es erneut.';
-      }
-    });
+onSubmit(): void {
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    return;
   }
+  const email = this.form.value.email!;
+
+  this.auth.register(email, email, 'Pass12345').subscribe({
+    next: () => {
+      this.router.navigateByUrl('/dashboard');
+    },
+    error: err => {
+      console.error('Registration failed, full error object:', err);
+      console.error('Status code:', err.status);
+      console.error('Response body:', err.error);
+      this.serverError =
+        err.error?.email?.[0]
+        || err.error?.non_field_errors?.[0]
+        || 'Registration failed. Please try again.';
+    }
+  });
+}
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
