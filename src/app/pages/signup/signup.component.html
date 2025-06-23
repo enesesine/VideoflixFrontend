@@ -1,3 +1,4 @@
+<!-- src/app/pages/signup/signup.component.html -->
 <header class="header">
   <img src="/Logo.png" alt="Videoflix" class="logo" />
   <button class="btn login-btn" routerLink="/login">Log in</button>
@@ -19,6 +20,19 @@
         placeholder="Email Address"
       />
     </div>
+    <!-- Validation Error for Email -->
+    <div class="error"
+         *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">
+      Please enter your email.
+    </div>
+    <div class="error"
+         *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">
+      Please enter a valid email address.
+    </div>
+    <!-- Server-side Error -->
+    <div class="error" *ngIf="serverError">
+      {{ serverError }}
+    </div>
 
     <!-- Password -->
     <div class="input-group">
@@ -39,6 +53,15 @@
         />
       </button>
     </div>
+    <!-- Validation Error for Password -->
+    <div class="error"
+         *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">
+      Please enter a password.
+    </div>
+    <div class="error"
+         *ngIf="form.get('password')?.touched && form.get('password')?.hasError('minlength')">
+      Password must be at least 8 characters.
+    </div>
 
     <!-- Confirm Password -->
     <div class="input-group">
@@ -58,6 +81,11 @@
           alt="Toggle visibility"
         />
       </button>
+    </div>
+    <!-- Validation Error for Confirm Password -->
+    <div class="error"
+         *ngIf="form.get('confirmPassword')?.touched && form.errors?.['mismatch']">
+      Passwords do not match.
     </div>
 
     <button type="submit" class="btn signup-btn" [disabled]="form.invalid">

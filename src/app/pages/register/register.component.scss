@@ -58,28 +58,44 @@
     color: #eee;
   }
 
-  .signup-form {
+    .signup-form {
     display: flex;
     gap: 0.5rem;
     width: 100%;
     max-width: 500px;
+    align-items: flex-start;
 
-    input {
+    /* der neue Wrapper */
+    .input-wrapper {
       flex: 1;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      color: #fff;
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid #fff;
-      border-radius: 24px;
-      outline: none;
+      display: flex;
+      flex-direction: column;
 
-      &::placeholder {
-        color: #ddd;
+      input {
+        flex: none;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid #fff;
+        border-radius: 24px;
+        outline: none;
+
+        &::placeholder {
+          color: #ddd;
+        }
+        &:focus {
+          border-color: #6b1bff;
+        }
       }
 
-      &:focus {
-        border-color: #6b1bff;
+      .error-messages {
+        margin-top: 0.25rem;
+        small {
+          display: block;
+          color: #ff6b6b;
+          font-size: 0.875rem;
+        }
       }
     }
 
@@ -88,13 +104,17 @@
       color: #fff;
       border: none;
       border-radius: 20px;
-      padding: 0 1.25rem;
+      padding: 0.75rem 1.25rem;
       font-weight: 600;
       cursor: pointer;
       transition: opacity 0.2s;
 
       &:hover {
         opacity: 0.9;
+      }
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
       }
     }
   }

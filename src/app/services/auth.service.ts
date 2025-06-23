@@ -13,11 +13,13 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  login(username: string, password: string) {
-    return this.http
-      .post<AuthResponse>(`${this.apiUrl}/login/`, { username, password })
-      .pipe(tap(res => this.saveToken(res.token)));
-  }
+login(email: string, password: string) {
+  return this.http
+    .post<AuthResponse>(`${this.apiUrl}/login/`, { email, password })
+    .pipe(
+      tap(res => this.saveToken(res.token))
+    );
+}
 
   register(username: string, email: string, password: string) {
     return this.http

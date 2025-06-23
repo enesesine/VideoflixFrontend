@@ -13,8 +13,8 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
-  private fb = inject(FormBuilder);
-  private auth = inject(AuthService);
+  private fb     = inject(FormBuilder);
+  private auth   = inject(AuthService);
   private router = inject(Router);
 
   // 1. Formular-Definition
@@ -29,13 +29,18 @@ export class LoginComponent {
       this.form.markAllAsTouched();
       return;
     }
+
     const { email, password } = this.form.value;
+
     this.auth.login(email!, password!).subscribe({
-      next: () => this.router.navigateByUrl('/dashboard'),
-      error: err => {
-        console.error('Login fehlgeschlagen', err);
-        // hier könntest du noch eine Fehlermeldung anzeigen
-      }
+      next: () => {
+        // Bei Erfolg zum Dashboard navigieren
+        this.router.navigateByUrl('/dashboard');
+      },
+     error: err => {
+  console.error('Login fehlgeschlagen', err);
+  console.error('Response Body:', err.error);
+}
     });
   }
 }

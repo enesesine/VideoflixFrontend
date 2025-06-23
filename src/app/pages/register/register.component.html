@@ -1,25 +1,47 @@
 <!-- src/app/pages/register/register.component.html -->
 <header class="header">
-    <img src="/Logo.png" alt="Videoflix" class="logo" />
-  <!-- Auf Login verlinken -->
+  <img src="/Logo.png" alt="Videoflix" class="logo" />
   <button class="btn login-btn" routerLink="/login">Log in</button>
 </header>
 
 <section class="hero">
-<h1> Movies, TV shows and <span class="highlight">more.</span> </h1>
+  <h1>
+    Movies, TV shows and <span class="highlight">more.</span>
+  </h1>
   <p>Enter your email to create or restart your subscription.</p>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
-    <input
-      type="email"
-      formControlName="email"
-      placeholder="Email Address"
-      required
-    />
+    
+    <!-- Hier das Input + Errors in einen Wrapper -->
+    <div class="input-wrapper">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email Address"
+        required
+        (blur)="form.get('email')?.markAsTouched()"
+      />
+
+      <!-- Field‐Validierungsfehler -->
+      <div class="error-messages" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
+        <small *ngIf="form.get('email')?.errors?.['required']">
+          Please enter your email address.
+        </small>
+        <small *ngIf="form.get('email')?.errors?.['email']">
+          Please enter a valid email address.
+        </small>
+      </div>
+
+      <!-- Server‐Fehler -->
+      <div class="error-messages" *ngIf="serverError">
+        <small>{{ serverError }}</small>
+      </div>
+    </div>
+
     <button
       type="submit"
       class="btn signup-btn"
-      [disabled]="form.get('email')?.invalid"
+      [disabled]="form.invalid"
     >
       Sign Up
     </button>
