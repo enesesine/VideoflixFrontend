@@ -1,7 +1,39 @@
+<!-- ========= Featured Highlight ========= -->
+
+<!-- src/app/pages/dashboard/dashboard.component.html -->
+<!-- ========= Featured Highlight ========= -->
+<div
+  class="featured"
+  *ngIf="videos.length"
+  [ngStyle]="{ 
+    'background-image': 
+      'radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.9)), ' +
+      'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), ' +
+      'url(' + videos[18].thumbnail + ')' 
+  }"
+>
+  <div class="featured-content">
+    <h1>{{ videos[18].title }}</h1>
+    <p class="meta">
+      Genre: {{ displayCategory(videos[18].category) }}
+    </p>
+    <div class="btn-group">
+      <button class="btn play-btn" (click)="open(videos[18])">Play</button>
+      <button class="btn info-btn" (click)="open(videos[18])">More Info</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========= Genre-Reihen ========= -->
+<div *ngFor="let cat of categories" class="genre-row">
+  <!-- ... dein bestehender Code ... -->
+</div>
+
+
+
 <!-- ========= Genre-Reihen ========= -->
 <div *ngFor="let cat of categories" class="genre-row">
   <h2>{{ cat.name }}</h2>
-
   <div class="thumb-strip">
     <div
       *ngFor="let vid of videosByCategory(cat.id)"
@@ -17,7 +49,12 @@
 </div>
 
 <!-- ========= Detail-Panel ========= -->
-<div *ngIf="active" class="overlay" (keydown.escape)="close()" tabindex="0">
+<div
+  *ngIf="active"
+  class="overlay"
+  (keydown.escape)="close()"
+  tabindex="0"
+>
   <div class="detail-box">
     <!-- Thumbnail -->
     <img
@@ -30,8 +67,7 @@
     <div class="info-row">
       <h1>{{ active.title }}</h1>
       <p class="meta">
-        Genre: {{ displayCategory(active.category) }} 
-      
+        Genre: {{ displayCategory(active.category) }}
       </p>
     </div>
 

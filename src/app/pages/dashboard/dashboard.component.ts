@@ -47,6 +47,9 @@ export class DashboardComponent implements OnInit {
   categories: Category[] = [];
   videos: Video[] = [];
 
+  /** Das oben gezeigte Featured Video */
+  featuredVideo!: Video;
+
   /* aktuell geöffnetes Detail-Overlay */
   active: Video | null = null;
 
@@ -66,17 +69,19 @@ export class DashboardComponent implements OnInit {
     this.api.getVideos().subscribe((vids) => {
       this.videos = vids.map((v) => ({
         ...v,
-        safeSrc: this.sanitizer.bypassSecurityTrustResourceUrl(
-          v.file
-        ),
+        safeSrc: this.sanitizer.bypassSecurityTrustResourceUrl(v.file),
       }));
+
+      // Feature: Wähle das erste Anime-Video, ansonsten das erste insgesamt
+      this.featuredVideo =
+        this.videos.find((v) => this.displayCategory(v.category) === 'Anime')
+        || this.videos[0];
     });
   }
 
   /* ────────── Overlay-Steuerung ────────── */
   open(video: Video): void {
     this.active = video;
-
     /* Overlay erhält Fokus → Escape funktioniert */
     setTimeout(() => {
       const el = document.querySelector('.overlay') as HTMLElement;
@@ -113,6 +118,6 @@ export class DashboardComponent implements OnInit {
   /** (Optional) Voll-Play-Routing */
   playFull(video: Video): void {
     console.log('Play full movie', video.id);
-    /* z. B.  this.router.navigate(['/watch', video.id]); */
+    /* z. B. this.router.navigate(['/watch', video.id]); */
   }
 }

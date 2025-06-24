@@ -37,3 +37,36 @@ input:-webkit-autofill {
 }
 
 
+
+
+
+/* src/styles.scss (oder styles.css) */
+
+/* Farben */
+:root {
+  --brand: #6b1bff;  /* dein lila */
+  --bg:    #141414;
+}
+
+/* src/styles.scss (global) */
+
+/* → alle WebKit-Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;    /* vertikale Dicke */
+  height: 4px;   /* horizontale Dicke reduziert */
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--brand);
+  border-radius: 4px;
+}
+
+/* → Firefox */
+html {
+  scrollbar-width: thin;              /* macht beides dünn */
+  scrollbar-color: var(--brand) var(--bg);
+}

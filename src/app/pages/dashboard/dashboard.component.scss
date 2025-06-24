@@ -2,13 +2,86 @@
    Dashboard Styles – kompakter Detail-Panel
    ========================================================= */
 
+/* ---------- Globale Scrollbar-Farben ---------- */
+/* WebKit (Chrome, Safari, Edge) */
+
+
 /* ---------- Grundfarben ---------- */
 :root {
   --brand: #6b1bff;      /* lila Highlight */
   --bg:    #141414;      /* Dark Background */
 }
 
-/* ---------- Reihen-Heading ---------- */
+/* ========= Featured Highlight Styles ========= */
+.featured {
+  position: relative;
+  height: 60vh;
+  margin-bottom: 2rem;
+  color: #fff;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+  background:
+    /* Vignette-Rand */
+    radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.9)),
+    /* gleichmäßige Abdunklung */
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6));
+  background-size: cover;
+  background-position: center;
+
+  .featured-content {
+    max-width: 500px;
+
+    h1 {
+      font-size: 3rem;
+      margin: 0 0 0.5rem;
+      color: var(--brand);
+    }
+
+    .meta {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+
+      .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: transform 0.2s, opacity 0.2s;
+      }
+
+      .play-btn {
+        background: #fff;
+        color: #000;
+
+        &:hover {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      .info-btn {
+        background: rgba(109,27,255,0.8);
+        color: #fff;
+
+        &:hover {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+}
+
+/* ---------- Genre-Reihen ---------- */
 .genre-row h2 {
   margin: 1.3rem 0 0.4rem;
   font-size: 1.3rem;
@@ -21,30 +94,30 @@
   gap: 0.9rem;
   overflow-x: auto;
   padding-bottom: 0.4rem;
-   user-select: none;
+  user-select: none;
 }
 
 /* ---------- Thumbnail-Card ---------- */
 .thumb-card {
-  position: relative;          /* für Vignette-Overlay */
-  flex: 0 0 290px;
+  position: relative;
+  flex: 0 0 305px;
   transition: transform 0.2s;
-  cursor: default;   
-   user-select: none;          
+  cursor: default;
+  user-select: none;
 
-  &:hover { transform: scale(1.05); }
+  &:hover {
+    transform: scale(1.05);
+  }
 
-  /* Bild selbst */
   img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 12px;
     display: block;
     aspect-ratio: 16 / 9;
     object-fit: cover;
-    cursor: pointer;           /* Hand-Cursor nur auf dem Bild */
+    cursor: pointer;
   }
 
-  /* schwarze Vignette */
   &::after {
     content: '';
     position: absolute;
@@ -57,10 +130,12 @@
     );
     opacity: 0;
     transition: opacity 0.25s ease;
-    pointer-events: none;      /* Overlay selbst nicht klickbar */
+    pointer-events: none;
   }
 
-  &:hover::after { opacity: 1; }
+  &:hover::after {
+    opacity: 1;
+  }
 }
 
 /* =========================================================
@@ -76,17 +151,16 @@
   padding: 1rem;
   color: #fff;
   overflow-y: auto;
-  outline: none;               /* Escape-Hotkey */
+  outline: none;
 }
 
-/* ---------- Box ---------- */
 .detail-box {
-  background: #1d1d1d4f;       /* halb­transparentes Grau */
+  background: #1d1d1d4f;
   padding: 1.2rem 1.6rem;
   border-radius: 10px;
   width: 88%;
   max-width: 650px;
-  max-height: 80vh;            /* zieht sich nicht über ganzen Screen */
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -94,14 +168,12 @@
   overflow-y: auto;
 }
 
-/* Thumbnail & Video – gleiche Breite */
 .thumb-large,
 .player {
   width: 100%;
   border-radius: 8px;
 }
 
-/* Info-Zeile */
 .info-row {
   width: 100%;
   display: flex;
@@ -112,7 +184,7 @@
 
 .info-row h1 {
   margin: 0;
-  font-size: 2.4rem;           /* größerer Titel */
+  font-size: 2.4rem;
   color: var(--brand);
   line-height: 1;
 }
@@ -123,7 +195,6 @@
   white-space: nowrap;
 }
 
-/* Beschreibung */
 .description {
   width: 100%;
   font-size: 0.9rem;
@@ -131,14 +202,12 @@
   text-align: left;
 }
 
-/* Trailer */
 .player {
   object-fit: cover;
-  max-height: 30vh;            /* kompakter */
+  max-height: 30vh;
   border-radius: 8px;
 }
 
-/* ---------- Close-Button ---------- */
 .close-btn {
   position: fixed;
   top: 14px;
