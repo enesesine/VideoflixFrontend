@@ -1,0 +1,69 @@
+/* src/app/pages/imprint/imprint.component.scss */
+:host {
+  display: block;
+  min-height: 100vh;
+  background: #141414;
+  color: #fff;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+
+  .logo {
+    height: 30px;
+  }
+
+  .login-btn {
+    background: var(--brand, #6b1bff);
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: transform 0.2s, opacity 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+  }
+}
+
+.content {
+  background: rgba(255,255,255,0.05);
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.5;
+
+  h1 {
+    color: var(--brand, #6b1bff);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  a {
+    color: var(--brand, #6b1bff);
+    text-decoration: none;
+    &:hover { text-decoration: underline; }
+  }
+}
+
+.footer {
+  margin-top: 3rem;
+  text-align: center;
+  color: #aaa;
+  font-size: 0.85rem;
+}
