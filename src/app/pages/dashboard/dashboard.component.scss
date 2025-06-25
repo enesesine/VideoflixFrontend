@@ -211,3 +211,60 @@
   color: #fff;
   cursor: pointer;
 }
+
+
+.quality-select {
+  margin: 0.8rem 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+
+  label {
+    color: #6b1bff !important;
+    font-weight: bold;
+  }
+
+  select {
+    appearance: none !important;        /* Standard-Pfeil ausblenden  */
+    background: var(--bg) !important;   /* dunkle Grundfarbe          */
+    color: #fff !important;
+    border: 1px solid var(--brand) !important;
+    border-radius: 10px !important;
+    padding: 0.35rem 1.8rem 0.35rem 0.6rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    position: relative;
+    transition: border-color 0.25s, box-shadow 0.25s;
+
+    &:hover,
+    &:focus {
+      border-color: #fff !important;
+      outline: none !important;
+      box-shadow: 0 0 0 2px rgba(107, 27, 255, 0.4) !important;
+    }
+
+    /* kleiner Custom-Arrow */
+    &::after {
+      content: '▾';
+      position: absolute;
+      right: 0.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--brand);
+    }
+  }
+}
+
+/* Mobile: Stretch auf volle Breite (optional) */
+@media (max-width: 480px) {
+  .quality-select {
+    flex-direction: column;
+    align-items: flex-start;
+
+    select {
+      width: 100% !important;
+    }
+  }
+}

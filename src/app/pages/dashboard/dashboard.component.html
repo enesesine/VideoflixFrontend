@@ -1,74 +1,54 @@
-<!-- ========= Featured Highlight ========= -->
-
 <!-- src/app/pages/dashboard/dashboard.component.html -->
-<!-- ========= Featured Highlight ========= -->
+
+<!-- ========== Featured Highlight ========== -->
 <div
   class="featured"
-  *ngIf="videos.length"
-  [ngStyle]="{ 
-    'background-image': 
+  *ngIf="featuredVideo"
+  [ngStyle]="{
+    'background-image':
       'radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.9)), ' +
       'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), ' +
-      'url(' + videos[18].thumbnail + ')' 
+      'url(' + featuredVideo.thumbnail + ')'
   }"
 >
   <div class="featured-content">
-    <h1>{{ videos[18].title }}</h1>
+    <h1>{{ featuredVideo.title }}</h1>
     <p class="meta">
-      Genre: {{ displayCategory(videos[18].category) }}
+      Genre: {{ displayCategory(featuredVideo.category) }}
     </p>
+
     <div class="btn-group">
-      <button class="btn play-btn" (click)="open(videos[18])">Play</button>
-      <button class="btn info-btn" (click)="open(videos[18])">More Info</button>
+      <button class="btn play-btn" (click)="open(featuredVideo)">Play</button>
+      <button class="btn info-btn" (click)="open(featuredVideo)">More&nbsp;Info</button>
     </div>
   </div>
 </div>
 
-<!-- ========= Genre-Reihen ========= -->
-<div *ngFor="let cat of categories" class="genre-row">
-  <!-- ... dein bestehender Code ... -->
-</div>
-
-
-
-<!-- ========= Genre-Reihen ========= -->
+<!-- ========== Genre-Reihen ========== -->
 <div *ngFor="let cat of categories" class="genre-row">
   <h2>{{ cat.name }}</h2>
+
   <div class="thumb-strip">
     <div
       *ngFor="let vid of videosByCategory(cat.id)"
       class="thumb-card"
       (click)="open(vid)"
     >
-      <img
-        [src]="vid.thumbnail || 'assets/placeholder.jpg'"
-        alt="{{ vid.title }}"
-      />
+      <img [src]="vid.thumbnail || 'assets/placeholder.jpg'" alt="{{ vid.title }}" />
     </div>
   </div>
 </div>
 
-<!-- ========= Detail-Panel ========= -->
-<div
-  *ngIf="active"
-  class="overlay"
-  (keydown.escape)="close()"
-  tabindex="0"
->
+<!-- ========== Detail-Panel mit Video.js ========== -->
+<div *ngIf="active" class="overlay" tabindex="0" (keydown.escape)="close()">
   <div class="detail-box">
-    <!-- Thumbnail -->
-    <img
-      class="thumb-large"
-      [src]="active.thumbnail || 'assets/placeholder.jpg'"
-      alt="{{ active.title }}"
-    />
+    <!-- großes Vorschaubild -->
+    <img class="thumb-large" [src]="active.thumbnail || 'assets/placeholder.jpg'" alt="{{ active.title }}" />
 
-    <!-- Titel + Genre/Length -->
+    <!-- Titel + Genre -->
     <div class="info-row">
       <h1>{{ active.title }}</h1>
-      <p class="meta">
-        Genre: {{ displayCategory(active.category) }}
-      </p>
+      <p class="meta">Genre: {{ displayCategory(active.category) }}</p>
     </div>
 
     <!-- Beschreibung -->
@@ -77,11 +57,29 @@
       {{ active.description || 'Keine Beschreibung hinterlegt.' }}
     </p>
 
-    <!-- Trailer -->
+    <!-- ───── Qualität-Auswahl ───── -->
+    <div class="quality-select" *ngIf="currentSources.length">
+      <label for="quality">Quality:&nbsp;</label>
+      <select
+        id="quality"
+        [value]="chosenSrc"
+        (change)="onQualityChange($any($event.target).value)"
+      >
+        <option *ngFor="let s of currentSources" [value]="s.src">
+          {{ s.label }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Video.js-Player -->
     <video
-      class="player"
+      #videoPlayer
+      id="video-player"
+      class="video-js vjs-default-skin vjs-big-play-centered"
       controls
-      [src]="active.safeSrc"
+      preload="auto"
+      width="100%"
+      height="auto"
     ></video>
   </div>
 

@@ -31,7 +31,11 @@
             ],
             "styles": [
               "@angular/material/prebuilt-themes/rose-red.css",
-              "src/styles.scss"
+              "src/styles.scss",
+                "node_modules/video.js/dist/video-js.css",
+                "node_modules/videojs-http-source-selector/dist/videojs-http-source-selector.css",
+                "@angular/material/prebuilt-themes/rose-red.css",
+                "src/styles.scss"
             ]
           },
           "configurations": {
