@@ -73,3 +73,10 @@ html {
   scrollbar-width: thin;              /* macht beides dünn */
   scrollbar-color: var(--brand) var(--bg);
 }
+
+
+
+body.no-scroll {
+  /* verhindert jede zusätzliche Browser-Scrollbar */
+  overflow: hidden !important;
+}

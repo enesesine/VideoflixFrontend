@@ -4,17 +4,30 @@
 <div
   class="featured"
   *ngIf="featuredVideo"
-  [ngStyle]="{
-    'background-image':
-      'radial-gradient(circle at center, transparent 50%, rgba(0,0,0,0.9)), ' +
-      'linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), ' +
-      'url(' + featuredVideo.thumbnail + ')'
-  }"
 >
+  <!-- Hintergrund-Video -->
+  <video
+    class="featured-bg"
+    [src]="featuredVideo.file"
+    autoplay
+    muted
+    loop
+    playsinline
+  ></video>
+
+  <!-- Vignette-Layer -->
+  <div class="vignette"></div>
+
+  <!-- Text / Buttons -->
   <div class="featured-content">
     <h1>{{ featuredVideo.title }}</h1>
+
     <p class="meta">
       Genre: {{ displayCategory(featuredVideo.category) }}
+    </p>
+
+    <p class="description">
+      {{ featuredVideo.description || 'Keine Beschreibung hinterlegt.' }}
     </p>
 
     <div class="btn-group">
@@ -25,39 +38,52 @@
 </div>
 
 <!-- ========== Genre-Reihen ========== -->
-<div *ngFor="let cat of categories" class="genre-row">
-  <h2>{{ cat.name }}</h2>
+<div class="categories">
+  <div *ngFor="let cat of categories" class="genre-row">
+    <h2>{{ cat.name }}</h2>
 
-  <div class="thumb-strip">
-    <div
-      *ngFor="let vid of videosByCategory(cat.id)"
-      class="thumb-card"
-      (click)="open(vid)"
-    >
-      <img [src]="vid.thumbnail || 'assets/placeholder.jpg'" alt="{{ vid.title }}" />
+    <div class="thumb-strip">
+      <div
+        *ngFor="let vid of videosByCategory(cat.id)"
+        class="thumb-card"
+        (click)="open(vid)"
+      >
+        <img
+          [src]="vid.thumbnail || 'assets/placeholder.jpg'"
+          alt="{{ vid.title }}"
+        />
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ========== Detail-Panel mit Video.js ========== -->
-<div *ngIf="active" class="overlay" tabindex="0" (keydown.escape)="close()">
-  <div class="detail-box">
-    <!-- großes Vorschaubild -->
-    <img class="thumb-large" [src]="active.thumbnail || 'assets/placeholder.jpg'" alt="{{ active.title }}" />
+<!-- ========== Detail-Overlay ========== -->
+<div
+  *ngIf="active"
+  class="overlay"
+  tabindex="0"
+  (click)="close()"
+  (keydown.escape)="close()"
+>
+  <!-- ► Klick INS Kästchen NICHT schließen -->
+  <div class="detail-box" (click)="$event.stopPropagation()">
 
-    <!-- Titel + Genre -->
+    <img
+      class="thumb-large"
+      [src]="active.thumbnail || 'assets/placeholder.jpg'"
+      alt="{{ active.title }}"
+    />
+
     <div class="info-row">
       <h1>{{ active.title }}</h1>
       <p class="meta">Genre: {{ displayCategory(active.category) }}</p>
     </div>
 
-    <!-- Beschreibung -->
     <p class="description">
       <strong>Description:</strong><br />
       {{ active.description || 'Keine Beschreibung hinterlegt.' }}
     </p>
 
-    <!-- ───── Qualität-Auswahl ───── -->
     <div class="quality-select" *ngIf="currentSources.length">
       <label for="quality">Quality:&nbsp;</label>
       <select
@@ -71,7 +97,6 @@
       </select>
     </div>
 
-    <!-- Video.js-Player -->
     <video
       #videoPlayer
       id="video-player"
@@ -83,6 +108,5 @@
     ></video>
   </div>
 
-  <!-- Close -->
   <button class="close-btn" (click)="close()">×</button>
 </div>

@@ -108,6 +108,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  /** Klick auf leeren Overlay-Bereich schließt */
+  onOverlayClick(evt: MouseEvent): void {
+    // Wenn nicht auf Detail-Box oder Button geklickt → schließen
+    if (evt.target && (evt.target as HTMLElement).classList.contains('overlay')) {
+      this.close();
+    }
+  }
+
   close(): void {
     this.active = null;
     this.player?.dispose();
