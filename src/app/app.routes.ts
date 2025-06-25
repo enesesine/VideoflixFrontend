@@ -9,6 +9,7 @@ import { DashboardComponent }        from './pages/dashboard/dashboard.component
 import { PrivacyComponent }          from './pages/privacy/privacy.component';
 import { ImprintComponent }          from './pages/imprint/imprint.component';
 import { AuthGuard }                 from './guards/auth-guard';
+import { LostPasswordComponent } from './pages/lost-password/lost-password.component';
 
 export const routes: Routes = [
   // Default-Redirect
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'privacy',         component: PrivacyComponent },
   { path: 'imprint',         component: ImprintComponent },
+  { path: 'lost-password', component: LostPasswordComponent },
 
   // Geschützter Bereich
   {
