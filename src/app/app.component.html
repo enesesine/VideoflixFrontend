@@ -1,1 +1,30 @@
+<!-- Kopfzeile erscheint nur im Dashboard-Bereich -->
+<header class="main-header" *ngIf="isDashboard">
+  <!-- Logo (führt zur Startseite / Registrierung) -->
+  <img
+    src="/dashboard/LogoNoLetters.png"
+    alt="Videoflix-Logo"
+    class="logo"
+    routerLink="/register"
+  />
+
+  <!-- Rechts: Login- oder Logout-Aktion -->
+  <ng-container *ngIf="auth.isLoggedIn(); else login">
+    <button class="logout-btn" (click)="onLogout()">
+      <img
+        src="/dashboard/logout.png"
+        alt="Logout"
+        height="18"
+        style="vertical-align: middle; margin-right: .4rem;"
+      />
+      Logout
+    </button>
+  </ng-container>
+
+  <ng-template #login>
+    <a class="login-link" routerLink="/login">Login</a>
+  </ng-template>
+</header>
+
+<!-- Hier werden die Seiten gerendert -->
 <router-outlet></router-outlet>

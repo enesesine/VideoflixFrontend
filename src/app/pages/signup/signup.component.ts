@@ -59,7 +59,7 @@ onSubmit(): void {
   }
   const email = this.form.value.email!;
 
-  this.auth.register(email, email, 'Pass12345').subscribe({
+  this.auth.register(email, 'Pass12345').subscribe({
     next: () => {
       this.router.navigateByUrl('/dashboard');
     },

@@ -1,49 +1,45 @@
-/* src/app/pages/login/login.component.scss */
+/* =========================================================== */
+/*  Register Page – Styles (responsive, no horizontal scroll)  */
+/* =========================================================== */
 :host {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  overflow-x: hidden;         /* ⬅️ verhindert horizontale Scrollbars */
+
   /* Hintergrundbild + Abdunklung + Vignette */
   background:
-    /* Vignette-Rand */
-    radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 1.9)),
-    /* gleichmäßige Abdunklung */
-    linear-gradient(rgba(0, 0, 0, 0.699), rgb(0, 0, 0, 0.699)),
-    /* das eigentliche Bild */
+    radial-gradient(circle at center, transparent 50%, rgba(0,0,0,.9)),
+    linear-gradient(rgba(0,0,0,.699), rgba(0,0,0,.699)),
     url('/bg_images/startBG.jpg') center/cover no-repeat;
   color: #fff;
 }
 
-/* ─── Header ─── */
+/* ─────────── Header ─────────── */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
 
-  .logo {
-    height: 30px;
-    cursor: pointer;
-  }
+  .logo      { height: 30px; cursor: pointer; }
 
   .login-btn {
     background: #6b1bff;
     color: #fff;
     border: none;
     border-radius: 20px;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
+    padding: .5rem 1rem;
     font-weight: 600;
-    transition: opacity 0.2s, transform 0.2s;
+    cursor: pointer;
+    transition: opacity .2s, transform .2s;
 
-    &:hover {
-      opacity: 0.9;
-      transform: translateY(-2px);
-    }
+    &:hover  { opacity: .9;  transform: translateY(-2px); }
+    &:active { opacity: .8;  transform: translateY( 0 ); }
   }
 }
 
-/* ─── Hero-Bereich ─── */
+/* ─────────── Hero ─────────── */
 .hero {
   flex: 1;
   display: flex;
@@ -55,15 +51,10 @@
 
   h1 {
     font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: #fff;
-    transition: color 0.3s, transform 0.3s;
+    margin-bottom: .5rem;
+    transition: color .3s, transform .3s;
 
-    &:hover {
-      color: #6b1bff;
-      transform: scale(1.25);
-    }
+    &:hover { color: #6b1bff; transform: scale(1.25); }
   }
 
   p {
@@ -73,43 +64,39 @@
     color: #eee;
   }
 
+  /* ────── Form ────── */
   .signup-form {
     display: flex;
-    gap: 0.5rem;
+    gap: .5rem;
     width: 100%;
     max-width: 500px;
     align-items: flex-start;
 
-    /* der neue Wrapper */
     .input-wrapper {
       flex: 1;
       display: flex;
       flex-direction: column;
 
       input {
-        flex: none;
-        padding: 0.75rem 1rem;
+        padding: .75rem 1rem;
         font-size: 1rem;
         color: #fff;
-        background: rgba(0, 0, 0, 0.3);
+        background: rgba(0,0,0,.3);
         border: 1px solid #fff;
         border-radius: 24px;
         outline: none;
 
-        &::placeholder {
-          color: #ddd;
-        }
-        &:focus {
-          border-color: #6b1bff;
-        }
+        &::placeholder { color: #ddd; }
+        &:focus        { border-color: #6b1bff; }
       }
 
       .error-messages {
-        margin-top: 0.25rem;
+        margin-top: .25rem;
+
         small {
           display: block;
+          font-size: .875rem;
           color: #ff6b6b;
-          font-size: 0.875rem;
         }
       }
     }
@@ -119,24 +106,18 @@
       color: #fff;
       border: none;
       border-radius: 20px;
-      padding: 0.75rem 1.25rem;
+      padding: .75rem 1.25rem;
       font-weight: 600;
       cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: opacity .2s, transform .2s;
 
-      &:hover {
-        opacity: 0.9;
-        transform: translateY(-5px);
-      }
-      &:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
+      &:hover    { opacity: .9; transform: translateY(-5px); }
+      &:disabled { opacity: .6; cursor: not-allowed; }
     }
   }
 }
 
-/* ─── Footer ─── */
+/* ─────────── Footer ─────────── */
 .footer {
   display: flex;
   justify-content: center;
@@ -145,17 +126,24 @@
 
   a {
     color: #fff;
-    font-size: 0.85rem;
+    font-size: .85rem;
     text-decoration: none;
-    transition: color 0.3s, transform 0.2s;
+    transition: color .3s, transform .2s;
 
-    &:hover {
-      color: #6b1bff;
-      transform: translateY(-2px);
-    }
+    &:hover { color: #6b1bff; transform: translateY(-2px); }
   }
 }
 
-.highlight {
-  color: #6b1bff;
+/* ─────────── Utils ─────────── */
+.highlight { color: #6b1bff; }
+
+
+@media (max-width: 360px) {
+  .logo { height: 26px; }
+
+  .signup-form input,
+  .signup-form .signup-btn {
+    font-size: .9rem;
+    padding: .6rem .9rem;
+  }
 }

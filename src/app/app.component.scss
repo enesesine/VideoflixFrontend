@@ -1,0 +1,47 @@
+/* ────────── Sticky Glas-Header ────────── */
+.main-header {
+  position: fixed;                 /* immer sichtbar */
+  inset: 0 0 auto 0;               /* top-left-right 0 */
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.6rem;
+
+  /* halbtransparent + Blur  */
+  background: rgba(20, 20, 20, 0.45);   /* dunkles Grau, 45 % Deckkraft */
+  backdrop-filter: blur(3px);           /* Frosted-Glass-Effekt */
+  border-bottom: 2px solid rgba(107, 27, 255, 0.6); /* dezentes Lila */
+  z-index: 1000;
+
+  /* ---------- Logo ---------- */
+  .logo {
+    height: 42px;                 /* etwas größer für den Hero */
+    cursor: pointer;
+  }
+
+  /* ---------- Buttons / Links ---------- */
+  .logout-btn,
+  .login-link {
+    background: #6b1bff;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+
+    &:hover {
+      transform: translateY(-2px);
+      opacity: 0.85;
+    }
+  }
+}
+
+/* Abstand, damit Inhalte nicht unter den fixen Header rutschen */
+.page,
+router-outlet + * {               /* fallback, falls du keine .page-Klasse hast */
+  padding-top: 64px;
+}

@@ -1,8 +1,10 @@
-import { Component }        from '@angular/core';
-import { CommonModule }     from '@angular/common';
-import { RouterModule }     from '@angular/router';
-import { AuthService }      from './services/auth.service';
-import { RouterOutlet }     from '@angular/router';
+// src/app/app.component.ts
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
+
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,24 @@ import { RouterOutlet }     from '@angular/router';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(public auth: AuthService) {}
+  /** true ⇢ Header anzeigen */
+  isDashboard = false;
 
-  logout(): void {
-    this.auth.logout();
+  constructor(public auth: AuthService, private router: Router) {
+    /* Route-Änderungen beobachten → Flag setzen */
+    this.router.events
+      .pipe(filter(evt => evt instanceof NavigationEnd))
+      .subscribe((evt: NavigationEnd) => {
+        /* passe ggf. an, falls dein Pfad anders lautet */
+        this.isDashboard = evt.urlAfterRedirects.startsWith('/dashboard');
+      });
+  }
+
+  /** Klick-Handler für Logout */
+  onLogout(): void {
+    this.auth.logout().subscribe({
+      next : () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login']),
+    });
   }
 }

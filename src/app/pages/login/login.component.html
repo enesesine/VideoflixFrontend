@@ -1,18 +1,19 @@
-<!-- src/app/pages/login/login.component.html -->
+<!-- Header --------------------------------------------------->
 <header class="header">
-  <img src="/Logo.png" alt="Videoflix" class="logo" />
-  <!-- Verlinkung zur Registrierung -->
+  <a routerLink="/register" class="logo-link" aria-label="Zur Registrierung">
+    <img src="/Logo.png" alt="Videoflix" class="logo" />
+  </a>
   <button class="btn signup-btn" routerLink="/register">Sign Up</button>
 </header>
 
+<!-- Hero ----------------------------------------------------->
 <section class="hero">
-  <h1>
-    <span class="highlight">Welcome</span> back!
-  </h1>
+  <h1><span class="highlight">Welcome</span> back!</h1>
   <p>
     Please sign in to continue to <span class="highlight">Videoflix</span>.
   </p>
 
+  <!-- ▸ Form ------------------------------------------------->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
     <input
       type="email"
@@ -26,17 +27,23 @@
       placeholder="Password"
       required
     />
-    <button
-      type="submit"
-      class="btn login-btn"
-      [disabled]="form.invalid"
-    >
+    <button type="submit" class="btn login-btn" [disabled]="form.invalid">
       Log in
     </button>
   </form>
+
+  <!-- ▸ Forgot-Password Link -------------------------------->
+  <a
+    class="forgot-link"
+    routerLink="/lost-password"
+    aria-label="Reset your password"
+  >
+    Forgot <span class="highlight">your</span> password?
+  </a>
 </section>
 
+<!-- Footer --------------------------------------------------->
 <footer class="footer">
-  <a href="/privacy">Datenschutz</a>
-  <a href="/imprint">Impressum</a>
+  <a routerLink="/privacy">Datenschutz</a>
+  <a routerLink="/imprint">Impressum</a>
 </footer>

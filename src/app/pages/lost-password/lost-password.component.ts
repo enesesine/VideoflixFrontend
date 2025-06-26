@@ -1,47 +1,67 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+// src/app/pages/lost-password/lost-password.component.ts
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+} from '@angular/forms';
+import { CommonModule }  from '@angular/common';
+import { RouterModule }  from '@angular/router';
+import { AuthService }   from '../../services/auth.service';
 
 @Component({
-  selector: 'app-lost-password',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './lost-password.component.html',
-  styleUrls: ['./lost-password.component.scss'],
+  selector    : 'app-lost-password',
+  standalone  : true,
+  imports     : [CommonModule, ReactiveFormsModule, RouterModule],
+  templateUrl : './lost-password.component.html',
+  styleUrls   : ['./lost-password.component.scss'],
 })
 export class LostPasswordComponent {
-  private fb = inject(FormBuilder);
-  private auth = inject(AuthService);
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-  });
+  /* ---------- Form ---------- */
+  readonly form!: FormGroup;            // nur deklariert
 
-  serverMessage: string | null = null;
+  /* ---------- UI-Status ---------- */
+  serverMsg = '';
   isSuccess = false;
+  sending   = false;
 
-  get emailCtrl() {
+  constructor(
+    private readonly fb : FormBuilder,
+    private readonly auth: AuthService
+  ) {
+    /* jetzt sicher – fb ist bereits injiziert */
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+    });
+  }
+
+  /* ---------- Getter ---------- */
+  get email(): AbstractControl {
     return this.form.get('email')!;
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    const email = this.emailCtrl.value!;
-    this.auth.forgotPassword(email).subscribe({
-      next: () => {
-        this.isSuccess = true;
-        this.serverMessage = `A reset link has been sent to ${email}.`;
-        this.form.disable();
-      },
-      error: err => {
-        this.isSuccess = false;
-        this.serverMessage = err.error?.detail || 'Error sending reset link.';
-      }
+  /* ---------- Submit ---------- */
+  submit(): void {
+    if (this.form.invalid) return;
+
+    this.sending = true;
+    const address = this.email.value as string;
+
+    this.auth.requestPasswordReset(address).subscribe({
+      next : () => this.finish(true),
+      error: () => this.finish(true),      // neutrale Antwort
     });
+  }
+
+  /* ---------- Helper ---------- */
+  private finish(success: boolean): void {
+    this.isSuccess = success;
+    this.serverMsg =
+      'Falls die Adresse existiert, wurde eine Mail mit einem Reset-Link versendet.';
+    this.sending = false;
+    this.form.reset();
   }
 }

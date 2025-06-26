@@ -1,54 +1,90 @@
 // src/app/pages/forgot-password/forgot-password.component.ts
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
+import {
+  FormBuilder,
+  Validators,
+  ReactiveFormsModule,
+  FormGroup,
+  AbstractControl,          // ➊ neu
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss'],
+  imports: [CommonModule, ReactiveFormsModule],
+  template: `
+    <h1>Passwort vergessen</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="E-Mail"
+        [class.error]="email.invalid && email.touched"
+      />
+
+      <button type="submit" [disabled]="form.invalid || sending">
+        Link senden
+      </button>
+    </form>
+
+    <p *ngIf="message" [class.success]="success" [class.error]="!success">
+      {{ message }}
+    </p>
+  `,
+  styles: [`
+    input.error { border-color:#ff6b6b }
+    .success   { color:#4caf50  }
+    .error     { color:#ff6b6b  }
+  `]
 })
 export class ForgotPasswordComponent {
-  private fb     = inject(FormBuilder);
-  private auth   = inject(AuthService);
-  private router = inject(Router);
 
-  form = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-  });
+  /* ---------- Reactive Form ---------- */
+  readonly form: FormGroup;
 
-  serverMessage: string | null = null;
-  isSuccess = false;
+  /* ---------- Status ---------- */
+  sending = false;
+  success = false;
+  message = '';
 
-  /** Für den Zugriff im Template */
-  get emailCtrl() {
-    return this.form.get('email')!;
+  /* ---------- Ctor ---------- */
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly auth: AuthService
+  ) {
+    /* Form erst hier bauen */
+    this.form = this.fb.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
   }
 
-  onSubmit(): void {
-    if (this.form.invalid) {
-      this.form.markAllAsTouched();
-      return;
-    }
-    const email = this.emailCtrl.value!;
-    this.auth.forgotPassword(email).subscribe({
-      next: () => {
-        this.isSuccess = true;
-        this.serverMessage = `A password reset link has been sent to ${email}.`;
-        this.form.disable();
+  /* ---------- Getter ---------- */
+  get email(): AbstractControl {
+    return this.form.get('email')!;        // ✔ kein Index-Signature-Problem
+  }
 
-        // Nach 3 Sekunden zu Login weiterleiten
-        setTimeout(() => {
-          this.router.navigateByUrl('/login');
-        }, 3000);
+  /* ---------- Submit ---------- */
+  submit(): void {
+    if (this.form.invalid) return;
+
+    this.sending = true;
+    const emailValue = this.email.value as string;
+
+    this.auth.requestPasswordReset(emailValue).subscribe({
+      next: () => {
+        this.success = true;
+        this.message =
+          'Falls die Adresse existiert, wurde eine Mail versendet.';
+        this.sending = false;
+        this.form.reset();
       },
-      error: err => {
-        this.isSuccess = false;
-        this.serverMessage = err.error?.detail || 'Error sending reset link.';
+      error: (_err: unknown) => {
+        this.success = false;
+        this.message = 'Es ist ein Fehler aufgetreten.';
+        this.sending = false;
       }
     });
   }
