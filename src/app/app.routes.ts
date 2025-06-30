@@ -19,7 +19,7 @@ export const routes: Routes = [
   { path: 'signup',          component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'reset-password',  component: LostPasswordComponent },
-
+  { path: 'lost-password', component: LostPasswordComponent },
   /* E-Mail-Verifikation */
   {
     path: 'email-verify',
