@@ -1,4 +1,5 @@
 // src/app/pages/dashboard/dashboard.component.ts
+
 import {
   Component,
   OnInit,
@@ -27,7 +28,6 @@ interface Video {
   thumbnail: string | null;
   category: Category | number;
   created_at: string;
-  length?: number;
   safeSrc?: SafeResourceUrl;
 }
 
@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild('videoPlayer', { static: false })
   videoElement!: ElementRef<HTMLVideoElement>;
-  private player?: any;
+  private player: any;  // <- hier als any
 
   constructor(
     private api: VideoApi,
@@ -67,18 +67,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   /* ---------- Lifecycle ---------- */
   ngOnInit(): void {
-    this.api.getCategories().subscribe((cats) => (this.categories = cats));
+    this.api.getCategories().subscribe(cats => {
+      console.log('📂 Kategorien:', cats);
+      this.categories = cats;
+    });
 
-    this.api.getVideos().subscribe((vids) => {
-      this.videos = vids.map((v) => ({
+    this.api.getVideos().subscribe(vids => {
+      console.log('🎬 Videos:', vids);
+      this.videos = vids.map(v => ({
         ...v,
         safeSrc: this.sanitizer.bypassSecurityTrustResourceUrl(v.file),
       }));
 
       this.featuredVideo =
-        this.videos.find(
-          (v) => this.displayCategory(v.category) === 'Anime'
-        ) || this.videos[0];
+        this.videos.find(v => this.displayCategory(v.category) === 'Anime')
+        || this.videos[0];
+      console.log('⭐ featuredVideo:', this.featuredVideo);
     });
   }
 
@@ -90,7 +94,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   open(video: Video): void {
     this.active = video;
     this.currentSources = this.getQualitySources(video);
-    // Standard = höchste Qualität
     this.chosenSrc = this.currentSources[0].src;
 
     setTimeout(() => {
@@ -103,15 +106,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
         sources: [{ src: this.chosenSrc, type: 'video/mp4' }],
       });
 
+      // Wenn ein Format nicht lädt, automatisch nächste Qualität wählen
+      this.player.on('error', () => {
+        const idx = this.currentSources.findIndex(s => s.src === this.chosenSrc);
+        const next = this.currentSources[idx + 1];
+        if (next) {
+          this.chosenSrc = next.src;
+          this.player.src({ src: this.chosenSrc, type: next.type });
+          this.player.play();
+        }
+      });
+
       // Fokus für ESC
       (document.querySelector('.overlay') as HTMLElement)?.focus();
     });
   }
 
-  /** Klick auf leeren Overlay-Bereich schließt */
   onOverlayClick(evt: MouseEvent): void {
-    // Wenn nicht auf Detail-Box oder Button geklickt → schließen
-    if (evt.target && (evt.target as HTMLElement).classList.contains('overlay')) {
+    if (
+      evt.target &&
+      (evt.target as HTMLElement).classList.contains('overlay')
+    ) {
       this.close();
     }
   }
@@ -127,8 +142,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (!this.player || newSrc === this.chosenSrc) return;
 
     this.chosenSrc = newSrc;
-    this.player.src({ src: newSrc, type: 'video/mp4' });
-    this.player.play(); // nahtlos weiterspielen
+    this.player.src({ src: this.chosenSrc, type: 'video/mp4' });
+    this.player.play();
   }
 
   /* ---------- Hotkey ---------- */
@@ -141,11 +156,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   displayCategory(cat: Category | number): string {
     return typeof cat === 'object'
       ? cat.name
-      : this.categories.find((c) => c.id === cat)?.name ?? '';
+      : this.categories.find(c => c.id === cat)?.name ?? '';
   }
 
   videosByCategory(catId: number): Video[] {
-    return this.videos.filter((v) =>
+    return this.videos.filter(v =>
       typeof v.category === 'object'
         ? v.category.id === catId
         : v.category === catId
@@ -153,7 +168,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private getQualitySources(video: Video): SrcObj[] {
-    // Reihenfolge: höchste Auflösung zuerst
     return [
       { src: video.file.replace('.mp4', '_1080p.mp4'), type: 'video/mp4', label: '1080p' },
       { src: video.file.replace('.mp4', '_720p.mp4'),  type: 'video/mp4', label: '720p'  },

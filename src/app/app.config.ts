@@ -26,8 +26,8 @@ export const appConfig: ApplicationConfig = {
     //  • allen Class-Interceptors aus DI (falls noch welche hättest)
     //  • plus Deinem Function-Interceptor authInterceptor
     provideHttpClient(
-      withInterceptorsFromDi(),
-      withInterceptors([ authInterceptor ])
-    ),
+    withInterceptors([ authInterceptor ]),
+    withInterceptorsFromDi()
+),
   ]
 };

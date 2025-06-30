@@ -1,37 +1,41 @@
+// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 
-// deine Standalone-Komponenten importieren
-import { LoginComponent }            from './pages/login/login.component';
-import { RegisterComponent }         from './pages/register/register.component';
-import { SignupComponent }           from './pages/signup/signup.component';
-import { ForgotPasswordComponent }   from './pages/forgot-password/forgot-password.component';
-import { DashboardComponent }        from './pages/dashboard/dashboard.component';
-import { PrivacyComponent }          from './pages/privacy/privacy.component';
-import { ImprintComponent }          from './pages/imprint/imprint.component';
-import { AuthGuard }                 from './guards/auth-guard';
-import { LostPasswordComponent } from './pages/lost-password/lost-password.component';
+/* Standalone-Komponenten */
+import { LoginComponent }          from './pages/login/login.component';
+import { SignupComponent }         from './pages/signup/signup.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { LostPasswordComponent }   from './pages/lost-password/lost-password.component';
+import { DashboardComponent }      from './pages/dashboard/dashboard.component';
+import { PrivacyComponent }        from './pages/privacy/privacy.component';
+import { ImprintComponent }        from './pages/imprint/imprint.component';
+
+import { AuthGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-  // Default-Redirect
-  { path: '', redirectTo: 'register', pathMatch: 'full' },
+  { path: '', redirectTo: 'signup', pathMatch: 'full' },
 
-  // Öffentlich
   { path: 'login',           component: LoginComponent },
-  { path: 'register',        component: RegisterComponent },
   { path: 'signup',          component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'privacy',         component: PrivacyComponent },
-  { path: 'imprint',         component: ImprintComponent },
-  { path: 'lost-password', component: LostPasswordComponent },
+  { path: 'reset-password',  component: LostPasswordComponent },
 
-  // Geschützter Bereich
+  /* E-Mail-Verifikation */
+  {
+    path: 'email-verify',
+    loadComponent: () =>
+      import('./pages/email-verify/email-verify.component')
+        .then(m => m.EmailVerifyComponent),
+  },
+
+  { path: 'privacy',   component: PrivacyComponent },
+  { path: 'imprint',   component: ImprintComponent },
+
   {
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
   },
 
-  // Catch-all
-  { path: '**', redirectTo: 'register' },
+  { path: '**', redirectTo: 'signup' },
 ];
-
