@@ -39,5 +39,5 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
   },
 
-  { path: '**', redirectTo: 'signup' },
+  { path: '**', redirectTo: 'register' },
 ];

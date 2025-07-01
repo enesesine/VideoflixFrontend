@@ -25,17 +25,16 @@
 
   .login-btn {
     background: #6b1bff;
-    border-radius: 20px;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
     color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: .5rem 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
+    transition: opacity .2s, transform .2s;
 
-    &:hover {
-      transform: translateY(-2px) scale(1.05);
-      opacity: 0.9;
-    }
+    &:hover  { opacity: .9; transform: translateY(-2px); }
+    &:active { opacity: .8; transform: translateY(0);  }
   }
 }
 
@@ -125,27 +124,21 @@
     }
   }
 
-  .signup-btn {
-    background: #6b1bff;
-    border-radius: 20px;
-    padding: 0.75rem;
-    font-weight: 600;
-    color: #fff;
-    cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
+    .signup-btn {
+      background: #6b1bff;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: .75rem 1.25rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
 
-    &:hover {
-      transform: translateY(-3px) scale(1.03);
-      opacity: 0.9;
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
+      &:hover    { opacity: .9;   transform: translateY(-5px); }
+      &:active   { opacity: .8;   transform: translateY(0);   }
+      &:disabled { opacity: .6;   cursor: not-allowed;        }
     }
   }
-}
 
 .footer {
   display: flex;
@@ -182,3 +175,20 @@
   color: #ff6b6b !important;
 }
 
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  /* Hintergrund-Color des Inputs beibehalten */
+  -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.3) inset;
+          box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.3) inset;
+  -webkit-text-fill-color: #fff; /* Textfarbe anpassen */
+  transition: background-color 5000s ease-in-out 0s; /* verhindert Flash */
+}
+
+/* Für alle Inputs: keine extra Umrandung bei Fokus/Active */
+input,
+textarea,
+select {
+  outline: none;
+}
