@@ -5,7 +5,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent }          from './pages/login/login.component';
 import { SignupComponent }         from './pages/signup/signup.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { LostPasswordComponent }   from './pages/lost-password/lost-password.component';
+import { EmailVerifyComponent }    from './pages/email-verify/email-verify.component';
+import { NewPasswordComponent }    from './pages/new-password/new-password.component';
 import { DashboardComponent }      from './pages/dashboard/dashboard.component';
 import { PrivacyComponent }        from './pages/privacy/privacy.component';
 import { ImprintComponent }        from './pages/imprint/imprint.component';
@@ -14,12 +15,11 @@ import { AuthGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'signup', pathMatch: 'full' },
-
+  { path: 'new-password',    component: NewPasswordComponent },
   { path: 'login',           component: LoginComponent },
   { path: 'signup',          component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password',  component: LostPasswordComponent },
-  { path: 'lost-password', component: LostPasswordComponent },
+
   /* E-Mail-Verifikation */
   {
     path: 'email-verify',

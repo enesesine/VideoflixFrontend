@@ -1,89 +1,69 @@
-// src/app/pages/forgot-password/forgot-password.component.ts
 import { Component } from '@angular/core';
 import {
   FormBuilder,
   Validators,
   ReactiveFormsModule,
   FormGroup,
-  AbstractControl,          // ➊ neu
+  AbstractControl,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-forgot-password',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  template: `
-    <h1>Passwort vergessen</h1>
-
-    <form [formGroup]="form" (ngSubmit)="submit()">
-      <input
-        type="email"
-        formControlName="email"
-        placeholder="E-Mail"
-        [class.error]="email.invalid && email.touched"
-      />
-
-      <button type="submit" [disabled]="form.invalid || sending">
-        Link senden
-      </button>
-    </form>
-
-    <p *ngIf="message" [class.success]="success" [class.error]="!success">
-      {{ message }}
-    </p>
-  `,
-  styles: [`
-    input.error { border-color:#ff6b6b }
-    .success   { color:#4caf50  }
-    .error     { color:#ff6b6b  }
-  `]
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RouterModule,   // for routerLink
+  ],
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent {
-
-  /* ---------- Reactive Form ---------- */
   readonly form: FormGroup;
-
-  /* ---------- Status ---------- */
   sending = false;
-  success = false;
-  message = '';
+  private _success = false;
+  private _message = '';
 
-  /* ---------- Ctor ---------- */
   constructor(
     private readonly fb: FormBuilder,
     private readonly auth: AuthService
   ) {
-    /* Form erst hier bauen */
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
   }
 
-  /* ---------- Getter ---------- */
-  get email(): AbstractControl {
-    return this.form.get('email')!;        // ✔ kein Index-Signature-Problem
+  get emailCtrl(): AbstractControl {
+    return this.form.get('email')!;
   }
 
-  /* ---------- Submit ---------- */
-  submit(): void {
-    if (this.form.invalid) return;
+  get serverMessage(): string {
+    return this._message;
+  }
 
+  get isSuccess(): boolean {
+    return this._success;
+  }
+
+  onSubmit(): void {
+    if (this.form.invalid) return;
     this.sending = true;
-    const emailValue = this.email.value as string;
+    const emailValue = this.emailCtrl.value as string;
 
     this.auth.requestPasswordReset(emailValue).subscribe({
       next: () => {
-        this.success = true;
-        this.message =
-          'Falls die Adresse existiert, wurde eine Mail versendet.';
+        this._success = true;
+        this._message =
+          'If that address exists, you will receive a password reset email.';
         this.sending = false;
         this.form.reset();
       },
-      error: (_err: unknown) => {
-        this.success = false;
-        this.message = 'Es ist ein Fehler aufgetreten.';
+      error: () => {
+        this._success = false;
+        this._message = 'Something went wrong. Please try again later.';
         this.sending = false;
       }
     });
