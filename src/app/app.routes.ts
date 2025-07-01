@@ -10,6 +10,7 @@ import { NewPasswordComponent }    from './pages/new-password/new-password.compo
 import { DashboardComponent }      from './pages/dashboard/dashboard.component';
 import { PrivacyComponent }        from './pages/privacy/privacy.component';
 import { ImprintComponent }        from './pages/imprint/imprint.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 import { AuthGuard } from './guards/auth-guard';
 
@@ -19,6 +20,7 @@ export const routes: Routes = [
   { path: 'login',           component: LoginComponent },
   { path: 'signup',          component: SignupComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
+  { path: 'register', component: RegisterComponent },
 
   /* E-Mail-Verifikation */
   {
