@@ -1,0 +1,41 @@
+<header class="header">
+  <a routerLink="/signup" class="logo-link">
+    <img src="/Logo.png" alt="Videoflix" class="logo" />
+  </a>
+</header>
+
+<section class="hero verify">
+  <div class="card">
+    <!-- Loading Spinner -->
+    <div *ngIf="loading" class="spinner"></div>
+
+    <!-- Ergebnis -->
+    <ng-container *ngIf="!loading">
+      <div class="icon" [class.error]="err">
+        <ng-container *ngIf="ok; else fail">✔</ng-container>
+        <ng-template #fail>✖</ng-template>
+      </div>
+      <h2 [class.success]="ok" [class.error]="err">
+        <ng-container *ngIf="ok; else failedText">
+          Your email has been confirmed!
+        </ng-container>
+        <ng-template #failedText>
+          Verification failed or expired.
+        </ng-template>
+      </h2>
+      <p class="subtext">
+        <ng-container *ngIf="ok; else retryText">
+          Redirecting to login…
+        </ng-container>
+        <ng-template #retryText>
+          Please request a new confirmation email.
+        </ng-template>
+      </p>
+    </ng-container>
+  </div>
+</section>
+
+<footer class="footer">
+  <a routerLink="/privacy">Privacy</a>
+  <a routerLink="/imprint">Imprint</a>
+</footer>

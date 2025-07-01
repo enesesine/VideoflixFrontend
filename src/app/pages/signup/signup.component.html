@@ -1,6 +1,8 @@
 <!-- src/app/pages/signup/signup.component.html -->
 <header class="header">
-  <a routerLink="/register" class="logo-link">  <img src="/Logo.png" alt="Videoflix" class="logo" /> </a>
+  <a routerLink="/register" class="logo-link">
+    <img src="/Logo.png" alt="Videoflix" class="logo" />
+  </a>
   <button class="btn login-btn" routerLink="/login">Log in</button>
 </header>
 
@@ -28,12 +30,8 @@
       Please enter your email.
     </div>
     <div class="error"
-         *ngIf="form.get('email')?.touched && form.get('email')?.hasError('email')">
+         *ngIf="form.get('email')?.touched && form.get('email')?.hasError('pattern')">
       Please enter a valid email address.
-    </div>
-    <!-- Server-side Error -->
-    <div class="error" *ngIf="serverError">
-      {{ serverError }}
     </div>
 
     <!-- Password -->
@@ -90,6 +88,16 @@
       Passwords do not match.
     </div>
 
+    <!-- Server-side Error -->
+    <div class="error" *ngIf="serverError">
+      {{ serverError }}
+    </div>
+
+    <!-- Success Message -->
+    <div class="success" *ngIf="successMessage">
+      {{ successMessage }}
+    </div>
+
     <button type="submit" class="btn signup-btn" [disabled]="form.invalid">
       Sign Up
     </button>
@@ -97,6 +105,6 @@
 </section>
 
 <footer class="footer">
-  <a routerLink="/privacy">Datenschutz</a>
-  <a routerLink="/imprint">Impressum</a>
+  <a routerLink="/privacy">Privacy</a>
+  <a routerLink="/imprint">Imprint</a>
 </footer>

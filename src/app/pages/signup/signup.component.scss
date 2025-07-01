@@ -192,3 +192,11 @@ textarea,
 select {
   outline: none;
 }
+
+
+/* src/app/pages/signup/signup.component.scss */
+.success {
+  color: #4caf50;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+}

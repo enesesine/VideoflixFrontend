@@ -15,7 +15,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AuthGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'signup', pathMatch: 'full' },
+  { path: '', redirectTo: 'register', pathMatch: 'full' },
   { path: 'new-password',    component: NewPasswordComponent },
   { path: 'login',           component: LoginComponent },
   { path: 'signup',          component: SignupComponent },

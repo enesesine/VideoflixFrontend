@@ -1,0 +1,81 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at center, transparent 50%, rgba(0,0,0,1)),
+    linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+    url('/bg_images/popcorn.jpg') center/cover no-repeat;
+  color: #fff;
+}
+
+.header,
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+
+  .logo { height: 30px; cursor: pointer; }
+
+  .footer a {
+    margin: 0 1rem;
+    color: #fff;
+    text-decoration: none;
+    transition: color .3s, transform .2s;
+    &:hover { color: #6b1bff; transform: translateY(-2px); }
+  }
+}
+
+.hero.verify {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+
+  .card {
+    position: relative;
+    background: rgba(0,0,0,0.5);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 360px;
+    width: 100%;
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top-color: #6b1bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #4caf50;
+      &.error { color: #e53935; }
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: .5rem 0;
+      &.success { color: #4caf50; }
+      &.error   { color: #e53935;  }
+    }
+
+    .subtext {
+      font-size: 1rem;
+      color: #ddd;
+      margin-top: .5rem;
+    }
+  }
+}
+
+/* Spinner-Animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
