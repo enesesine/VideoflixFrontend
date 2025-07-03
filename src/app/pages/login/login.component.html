@@ -1,38 +1,55 @@
-<!-- Header --------------------------------------------------->
+<!-- Header -->
 <header class="header">
-  <a routerLink="/register" class="logo-link" aria-label="Zur Registrierung">
+  <a routerLink="/register" class="logo-link" aria-label="Go to Sign Up">
     <img src="/Logo.png" alt="Videoflix" class="logo" />
   </a>
   <button class="btn signup-btn" routerLink="/register">Sign Up</button>
 </header>
 
-<!-- Hero ----------------------------------------------------->
+<!-- Hero -->
 <section class="hero">
   <h1><span class="highlight">Welcome</span> back!</h1>
   <p>
     Please sign in to continue to <span class="highlight">Videoflix</span>.
   </p>
 
-  <!-- ▸ Form ------------------------------------------------->
+  <!-- Form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
-    <input
-      type="email"
-      formControlName="email"
-      placeholder="Email Address"
-      required
-    />
-    <input
-      type="password"
-      formControlName="password"
-      placeholder="Password"
-      required
-    />
+    <!-- Email -->
+    <div class="input-wrapper">
+      <input
+        type="email"
+        formControlName="email"
+        placeholder="Email Address"
+        required
+        (blur)="emailCtrl.markAsTouched()"
+      />
+      <div class="error-messages" *ngIf="emailCtrl.touched && emailCtrl.invalid">
+        <small *ngIf="emailCtrl.hasError('required')">Please enter your email.</small>
+        <small *ngIf="emailCtrl.hasError('email')">Please enter a valid email address.</small>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="input-wrapper">
+      <input
+        type="password"
+        formControlName="password"
+        placeholder="Password"
+        required
+        (blur)="passwordCtrl.markAsTouched()"
+      />
+      <div class="error-messages" *ngIf="passwordCtrl.touched && passwordCtrl.invalid">
+        <small *ngIf="passwordCtrl.hasError('required')">Please enter your password.</small>
+      </div>
+    </div>
+
     <button type="submit" class="btn login-btn" [disabled]="form.invalid">
       Log in
     </button>
   </form>
 
-  <!-- ▸ Forgot-Password Link -------------------------------->
+  <!-- Forgot-Password Link -->
   <a
     class="forgot-link"
     routerLink="/forgot-password"
@@ -42,8 +59,8 @@
   </a>
 </section>
 
-<!-- Footer --------------------------------------------------->
+<!-- Footer -->
 <footer class="footer">
-  <a routerLink="/privacy">Datenschutz</a>
-  <a routerLink="/imprint">Impressum</a>
+  <a routerLink="/privacy">Privacy</a>
+  <a routerLink="/imprint">Imprint</a>
 </footer>

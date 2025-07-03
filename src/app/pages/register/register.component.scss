@@ -5,7 +5,7 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow-x: hidden;         /* ⬅️ verhindert horizontale Scrollbars */
+  overflow-x: hidden;
 
   /* Hintergrundbild + Abdunklung + Vignette */
   background:
@@ -22,7 +22,7 @@
   align-items: center;
   padding: 1rem 2rem;
 
-  .logo      { height: 30px; cursor: pointer; }
+  .logo { height: 30px; cursor: pointer; }
 
   .login-btn {
     background: #6b1bff;
@@ -35,7 +35,7 @@
     transition: opacity .2s, transform .2s;
 
     &:hover  { opacity: .9;  transform: translateY(-2px); }
-    &:active { opacity: .8;  transform: translateY( 0 ); }
+    &:active { opacity: .8;  transform: translateY( 0 );  }
   }
 }
 
@@ -62,6 +62,15 @@
     font-weight: 300;
     margin-bottom: 1.5rem;
     color: #eee;
+    transition: color .3s, transform .3s;
+
+    /* Neuer Hover-Effekt */
+    &:hover {
+      color: #fff;               /* bleibt weiß, sonst zu grell */
+      transform: scale(1.03);    /* leichtes Aufzoomen */
+    }
+
+    .highlight { color: #6b1bff; }
   }
 
   /* ────── Form ────── */
@@ -136,7 +145,6 @@
 
 /* ─────────── Utils ─────────── */
 .highlight { color: #6b1bff; }
-
 
 @media (max-width: 360px) {
   .logo { height: 26px; }

@@ -1,7 +1,11 @@
-// src/app/pages/login/login.component.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
+import {
+  ReactiveFormsModule,
+  FormBuilder,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 
@@ -17,13 +21,17 @@ export class LoginComponent {
   private auth   = inject(AuthService);
   private router = inject(Router);
 
-  // 1. Formular-Definition
+  // Formular-Definition
   form = this.fb.group({
     email:    ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
-  // 2. onSubmit() für dein (ngSubmit)
+  // Getter für einfache Template-Nutzung
+  get emailCtrl(): AbstractControl { return this.form.get('email')!; }
+  get passwordCtrl(): AbstractControl { return this.form.get('password')!; }
+
+  // Submit-Handler
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -34,13 +42,12 @@ export class LoginComponent {
 
     this.auth.login(email!, password!).subscribe({
       next: () => {
-        // Bei Erfolg zum Dashboard navigieren
         this.router.navigateByUrl('/dashboard');
       },
-     error: err => {
-  console.error('Login fehlgeschlagen', err);
-  console.error('Response Body:', err.error);
-}
+      error: () => {
+        // Hier könntest du eine Fehlermeldung anzeigen lassen
+        // z.B. this.serverError = 'Login failed. Check credentials.';
+      }
     });
   }
 }

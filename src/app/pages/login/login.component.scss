@@ -102,6 +102,15 @@
     }
   }
 
+  .error-messages {
+  small {
+    color: #ff6b6b !important;  /* Rot für alle Validation-Fehler */
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+  }
+}
+
   /* ---------- Forgot-Password Link ---------- */
   .forgot-link {
     margin-top: 1rem;
