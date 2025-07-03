@@ -19,30 +19,33 @@ export class RegisterComponent {
   private fb     = inject(FormBuilder);
   private router = inject(Router);
 
+  /* Reactive form: single “email” field */
   form = this.fb.group({
     email: [
       '',
       [
         Validators.required,
         Validators.email,
-        // verlangt mindestens ein ".", danach min. 2 Buchstaben
-        Validators.pattern(/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/)
-      ]
+        /* regex: must contain a dot and at least two letters afterward */
+        Validators.pattern(/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/),
+      ],
     ],
   });
 
-  /** Für Template-Zugriff */
+  /* Expose control for template bindings */
   get emailCtrl() {
     return this.form.get('email')!;
   }
 
+  /* Submit handler */
   onSubmit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
     }
+
     const email = this.emailCtrl.value!;
-    // Nur Weiterleitung – Query-Param „email“ übergeben
+    /* Redirect to /signup, passing the email as query param */
     this.router.navigate(['/signup'], { queryParams: { email } });
   }
 }

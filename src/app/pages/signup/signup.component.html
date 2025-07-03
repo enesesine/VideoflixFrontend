@@ -1,8 +1,11 @@
 <!-- src/app/pages/signup/signup.component.html -->
 <header class="header">
+  <!-- Logo links back to registration start page -->
   <a routerLink="/register" class="logo-link">
     <img src="/Logo.png" alt="Videoflix" class="logo" />
   </a>
+
+  <!-- Login shortcut -->
   <button class="btn login-btn" routerLink="/login">Log in</button>
 </header>
 
@@ -14,6 +17,7 @@
     Enter your details to <span class="highlight">create</span> your account.
   </p>
 
+  <!-- Sign-up form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
     <!-- Email -->
     <div class="input-group">
@@ -24,13 +28,17 @@
         placeholder="Email Address"
       />
     </div>
-    <!-- Validation Error for Email -->
-    <div class="error"
-         *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')">
+    <!-- Email validation messages -->
+    <div
+      class="error"
+      *ngIf="form.get('email')?.touched && form.get('email')?.hasError('required')"
+    >
       Please enter your email.
     </div>
-    <div class="error"
-         *ngIf="form.get('email')?.touched && form.get('email')?.hasError('pattern')">
+    <div
+      class="error"
+      *ngIf="form.get('email')?.touched && form.get('email')?.hasError('pattern')"
+    >
       Please enter a valid email address.
     </div>
 
@@ -53,17 +61,21 @@
         />
       </button>
     </div>
-    <!-- Validation Error for Password -->
-    <div class="error"
-         *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')">
+    <!-- Password validation messages -->
+    <div
+      class="error"
+      *ngIf="form.get('password')?.touched && form.get('password')?.hasError('required')"
+    >
       Please enter a password.
     </div>
-    <div class="error"
-         *ngIf="form.get('password')?.touched && form.get('password')?.hasError('minlength')">
+    <div
+      class="error"
+      *ngIf="form.get('password')?.touched && form.get('password')?.hasError('minlength')"
+    >
       Password must be at least 8 characters.
     </div>
 
-    <!-- Confirm Password -->
+    <!-- Confirm password -->
     <div class="input-group">
       <img src="/SignUp/password.png" alt="Password icon" />
       <input
@@ -82,18 +94,18 @@
         />
       </button>
     </div>
-    <!-- Validation Error for Confirm Password -->
-    <div class="error"
-         *ngIf="form.get('confirmPassword')?.touched && form.errors?.['mismatch']">
+    <!-- Confirm-password validation -->
+    <div
+      class="error"
+      *ngIf="form.get('confirmPassword')?.touched && form.errors?.['mismatch']"
+    >
       Passwords do not match.
     </div>
 
-    <!-- Server-side Error -->
+    <!-- Server response -->
     <div class="error" *ngIf="serverError">
       {{ serverError }}
     </div>
-
-    <!-- Success Message -->
     <div class="success" *ngIf="successMessage">
       {{ successMessage }}
     </div>

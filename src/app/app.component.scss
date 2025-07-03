@@ -1,26 +1,26 @@
-/* ────────── Sticky Glas-Header ────────── */
+/* Sticky glass header */
 .main-header {
-  position: fixed;                 /* immer sichtbar */
-  inset: 0 0 auto 0;               /* top-left-right 0 */
+  position: fixed;          /* stays visible while scrolling */
+  inset: 0 0 auto 0;        /* top, left, right = 0 */
   height: 64px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 1.6rem;
 
-  /* halbtransparent + Blur  */
-  background: rgba(20, 20, 20, 0.45);   /* dunkles Grau, 45 % Deckkraft */
-  backdrop-filter: blur(3px);           /* Frosted-Glass-Effekt */
-  border-bottom: 2px solid rgba(107, 27, 255, 0.6); /* dezentes Lila */
+  /* translucent dark background with blur */
+  background: rgba(20, 20, 20, 0.45);
+  backdrop-filter: blur(3px);
+  border-bottom: 2px solid rgba(107, 27, 255, 0.6);
   z-index: 1000;
 
-  /* ---------- Logo ---------- */
+  /* logo */
   .logo {
-    height: 42px;                 /* etwas größer für den Hero */
+    height: 42px;
     cursor: pointer;
   }
 
-  /* ---------- Buttons / Links ---------- */
+  /* logout button / login link */
   .logout-btn,
   .login-link {
     background: #6b1bff;
@@ -40,8 +40,8 @@
   }
 }
 
-/* Abstand, damit Inhalte nicht unter den fixen Header rutschen */
+/* top padding so page content is not hidden behind the fixed header */
 .page,
-router-outlet + * {               /* fallback, falls du keine .page-Klasse hast */
+router-outlet + * {
   padding-top: 64px;
 }

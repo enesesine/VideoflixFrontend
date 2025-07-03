@@ -1,13 +1,11 @@
-/* =========================================================== */
-/*  Register Page – Styles (responsive, no horizontal scroll)  */
-/* =========================================================== */
+/* Register page styles (responsive, no horizontal scroll) */
 :host {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   overflow-x: hidden;
 
-  /* Hintergrundbild + Abdunklung + Vignette */
+  /* background image, dark overlay, vignette */
   background:
     radial-gradient(circle at center, transparent 50%, rgba(0,0,0,.9)),
     linear-gradient(rgba(0,0,0,.699), rgba(0,0,0,.699)),
@@ -15,7 +13,7 @@
   color: #fff;
 }
 
-/* ─────────── Header ─────────── */
+/* Header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -34,12 +32,12 @@
     cursor: pointer;
     transition: opacity .2s, transform .2s;
 
-    &:hover  { opacity: .9;  transform: translateY(-2px); }
-    &:active { opacity: .8;  transform: translateY( 0 );  }
+    &:hover  { opacity: .9; transform: translateY(-2px); }
+    &:active { opacity: .8; transform: translateY(0); }
   }
 }
 
-/* ─────────── Hero ─────────── */
+/* Hero section */
 .hero {
   flex: 1;
   display: flex;
@@ -64,16 +62,15 @@
     color: #eee;
     transition: color .3s, transform .3s;
 
-    /* Neuer Hover-Effekt */
     &:hover {
-      color: #fff;               /* bleibt weiß, sonst zu grell */
-      transform: scale(1.03);    /* leichtes Aufzoomen */
+      color: #fff;          /* keep white, otherwise too bright */
+      transform: scale(1.03);
     }
 
     .highlight { color: #6b1bff; }
   }
 
-  /* ────── Form ────── */
+  /* Sign-up form */
   .signup-form {
     display: flex;
     gap: .5rem;
@@ -126,7 +123,7 @@
   }
 }
 
-/* ─────────── Footer ─────────── */
+/* Footer */
 .footer {
   display: flex;
   justify-content: center;
@@ -143,9 +140,10 @@
   }
 }
 
-/* ─────────── Utils ─────────── */
+/* Utility */
 .highlight { color: #6b1bff; }
 
+/* Small-screen tweaks */
 @media (max-width: 360px) {
   .logo { height: 26px; }
 

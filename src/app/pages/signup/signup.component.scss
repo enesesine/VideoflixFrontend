@@ -3,18 +3,16 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  /* Hintergrundbild + Abdunklung + Vignette */
+
+  /* background image, dark overlay, vignette */
   background:
-    /* Vignette-Rand */
     radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 1.3)),
-    /* gleichmäßige Abdunklung */
     linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
-    /* das eigentliche Bild */
     url('/bg_images/popcorn.jpg') center/cover no-repeat;
   color: #fff;
 }
 
-
+/* header */
 .header {
   display: flex;
   justify-content: space-between;
@@ -34,10 +32,11 @@
     transition: opacity .2s, transform .2s;
 
     &:hover  { opacity: .9; transform: translateY(-2px); }
-    &:active { opacity: .8; transform: translateY(0);  }
+    &:active { opacity: .8; transform: translateY(0); }
   }
 }
 
+/* hero section */
 .hero {
   flex: 1;
   display: flex;
@@ -54,10 +53,7 @@
 
     .highlight { color: #6b1bff; }
 
-    &:hover {
-      transform: rotate(-2deg) scale(1.1);
-      color: #ddd;
-    }
+    &:hover { transform: rotate(-2deg) scale(1.1); color: #ddd; }
   }
 
   p {
@@ -66,16 +62,13 @@
     color: #eee;
     transition: letter-spacing 0.3s, color 0.3s;
 
-    &:hover {
-      letter-spacing: 1px;
-      color: #ddd;
-    }
+    &:hover { letter-spacing: 1px; color: #ddd; }
 
-    /* falls du den 'create' wieder lila hervorheben möchtest: */
     .highlight { color: #6b1bff; }
   }
 }
 
+/* sign-up form */
 .signup-form {
   display: flex;
   flex-direction: column;
@@ -93,9 +86,7 @@
     padding: 0.5rem;
     transition: border-color 0.2s;
 
-    &:hover {
-      border-color: #6b1bff;
-    }
+    &:hover { border-color: #6b1bff; }
 
     img { width: 20px; margin-right: 0.75rem; }
 
@@ -109,10 +100,7 @@
       transition: transform 0.2s;
 
       &::placeholder { color: #ddd; }
-
-      &:hover {
-        transform: translateY(-1px);
-      }
+      &:hover        { transform: translateY(-1px); }
     }
 
     .eye-btn {
@@ -120,26 +108,28 @@
       border: none;
       margin-left: 0.5rem;
       cursor: pointer;
+
       img { width: 20px; }
     }
   }
 
-    .signup-btn {
-      background: #6b1bff;
-      color: #fff;
-      border: none;
-      border-radius: 20px;
-      padding: .75rem 1.25rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity .2s, transform .2s;
+  .signup-btn {
+    background: #6b1bff;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    padding: .75rem 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .2s, transform .2s;
 
-      &:hover    { opacity: .9;   transform: translateY(-5px); }
-      &:active   { opacity: .8;   transform: translateY(0);   }
-      &:disabled { opacity: .6;   cursor: not-allowed;        }
-    }
+    &:hover    { opacity: .9; transform: translateY(-5px); }
+    &:active   { opacity: .8; transform: translateY(0);     }
+    &:disabled { opacity: .6; cursor: not-allowed;          }
   }
+}
 
+/* footer */
 .footer {
   display: flex;
   justify-content: center;
@@ -151,52 +141,31 @@
     text-decoration: none;
     transition: color 0.3s, transform 0.2s;
 
-    &:hover {
-      color: #6b1bff;
-      transform: translateY(-2px);
-    }
+    &:hover { color: #6b1bff; transform: translateY(-2px); }
   }
 }
 
-.highlight {
-  color: #6b1bff !important;
-}
+/* utility */
+.highlight { color: #6b1bff !important; }
 
+/* validation states */
+.error   { color: #ff6b6b; }
+.error small { color: #ff6b6b !important; }
+.success { color: #4caf50; margin: 0.5rem 0 1rem; font-size: 0.95rem; }
 
-/* ---------------------------
-   1) Error-Text bleibt rot
---------------------------- */
-.error {
-  color: #ff6b6b;  /* explizit rot */
-}
-
-/* Für kleine <small> in .error-messages */
-.error small {
-  color: #ff6b6b !important;
-}
-
-
+/* autofill tweaks */
 input:-webkit-autofill,
 textarea:-webkit-autofill,
 select:-webkit-autofill {
-  /* Hintergrund-Color des Inputs beibehalten */
   -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.3) inset;
           box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.3) inset;
-  -webkit-text-fill-color: #fff; /* Textfarbe anpassen */
-  transition: background-color 5000s ease-in-out 0s; /* verhindert Flash */
+  -webkit-text-fill-color: #fff;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
-/* Für alle Inputs: keine extra Umrandung bei Fokus/Active */
+/* remove default focus outline */
 input,
 textarea,
 select {
   outline: none;
-}
-
-
-/* src/app/pages/signup/signup.component.scss */
-.success {
-  color: #4caf50;
-  margin: 0.5rem 0 1rem;
-  font-size: 0.95rem;
 }

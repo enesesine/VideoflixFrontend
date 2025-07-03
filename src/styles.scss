@@ -1,88 +1,62 @@
+/* Third-party stylesheet for the Video.js quality selector */
 @import 'videojs-http-source-selector/dist/videojs-http-source-selector.css';
 
-
-html, body {
+/* Basic page setup */
+html,
+body {
   height: 100%;
   margin: 0;
-  background: #141414;   /* dunkles Grau – Netflix-Style */
-  color: #6b1bff;           /* Standard-Schrift in Weiß für Kontrast */
+  background: #141414;          /* dark “Netflix” gray */
+  color: #6b1bff;               /* app-wide accent color */
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* WebKit scrollbars */
 ::-webkit-scrollbar {
-  height: 8px;      /* horizontale Leiste */
-  width:  8px;      /* vertikale Leiste   */
+  width: 8px;                   /* vertical */
+  height: 8px;                  /* horizontal */
 }
-::-webkit-scrollbar-track {
-  background: #141414;
-}
+::-webkit-scrollbar-track { background: #141414; }
 ::-webkit-scrollbar-thumb {
   background: #444;
   border-radius: 4px;
 }
 
-/* Autofill override */
+/* Override Chrome’s yellow autofill background */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  /* Hintergrund wieder transparent machen */
   -webkit-box-shadow: 0 0 0px 1000px rgba(0,0,0,0.3) inset !important;
-
-
-  /* Textfarbe beibehalten */
   -webkit-text-fill-color: #fff !important;
 }
+/* Prevent autofill “flash” on load */
+input:-webkit-autofill { transition: background-color 5000s ease-in-out 0s; }
 
-/* Wenn du zudem den Placeholder-Fade deaktivieren möchtest */
-input:-webkit-autofill {
-  transition: background-color 5000s ease-in-out 0s;
-}
-
-
-
-
-
-/* src/styles.scss (oder styles.css) */
-
-/* Farben */
+/* Design tokens */
 :root {
-  --brand: #6b1bff;  /* dein lila */
+  --brand: #6b1bff;
   --bg:    #141414;
 }
 
-/* src/styles.scss (global) */
-
-/* → alle WebKit-Scrollbars */
-::-webkit-scrollbar {
-  width: 8px;    /* vertikale Dicke */
-  height: 4px;   /* horizontale Dicke reduziert */
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-
+/* Global scrollbars (duplicated intentionally for emphasis) */
+::-webkit-scrollbar { width: 8px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb {
   background-color: var(--brand);
   border-radius: 4px;
 }
 
-/* → Firefox */
+/* Firefox scrollbar */
 html {
-  scrollbar-width: thin;              /* macht beides dünn */
+  scrollbar-width: thin;
   scrollbar-color: var(--brand) var(--bg);
 }
 
+/* Utility: lock body scroll (used for modals/overlays) */
+body.no-scroll { overflow: hidden !important; }
 
-
-body.no-scroll {
-  /* verhindert jede zusätzliche Browser-Scrollbar */
-  overflow: hidden !important;
-}
-
-
-/* 1) Ziel alle Input-Autofill-Zustände */
+/* Unified autofill treatment for all form elements */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -92,20 +66,14 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  /* 2) Entferne Chrome's gelb/weiß-Hintergrund-/Box-Shadow */
   -webkit-box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.3) inset !important;
           box-shadow: 0 0 0px 1000px rgba(0, 0, 0, 0.3) inset !important;
-  /* 3) Textfarbe anpassen */
   -webkit-text-fill-color: #fff !important;
-  /* 4) Verhindere den kurzen Farb-Flash */
   transition: background-color 5000s ease-in-out 0s !important;
   background-clip: padding-box !important;
-
 }
 
-/* 5) Optional: Wenn du gar kein gefärbtes Outline bei Fokus willst */
+/* Remove default outline if desired */
 input:focus,
 textarea:focus,
-select:focus {
-  outline: none;
-}
+select:focus { outline: none; }

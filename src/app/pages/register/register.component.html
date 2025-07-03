@@ -1,6 +1,9 @@
 <!-- src/app/pages/register/register.component.html -->
 <header class="header">
+  <!-- Brand logo; homepage link not needed here -->
   <img src="/Logo.png" alt="Videoflix" class="logo" />
+
+  <!-- Shortcut to login page -->
   <button class="btn login-btn" routerLink="/login">Log in</button>
 </header>
 
@@ -9,9 +12,11 @@
     Movies, TV shows and <span class="highlight">more.</span>
   </h1>
   <p>
-    Enter your email to <span class="highlight">create</span> or restart your subscription.
+    Enter your email to <span class="highlight">create</span> or restart your
+    subscription.
   </p>
 
+  <!-- Sign-up form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
     <div class="input-wrapper">
       <input
@@ -22,7 +27,7 @@
         (blur)="emailCtrl.markAsTouched()"
       />
 
-      <!-- Field‐Validierungsfehler -->
+      <!-- Field validation messages -->
       <div class="error-messages" *ngIf="emailCtrl.touched && emailCtrl.invalid">
         <small *ngIf="emailCtrl.hasError('required')">
           Please enter your email address.

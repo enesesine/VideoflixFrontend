@@ -2,32 +2,32 @@
 import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection
+  provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter }       from '@angular/router';
+import { provideRouter } from '@angular/router';
 import {
   provideHttpClient,
   withInterceptorsFromDi,
-  withInterceptors
+  withInterceptors,
 } from '@angular/common/http';
 
-import { routes }                   from './app.routes';
-import { authInterceptor }          from './interceptors/auth.interceptor';
+import { routes }          from './app.routes';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
 
-    // Router
+    // Router setup
     provideRouter(routes),
 
-    // HttpClient mit:
-    //  • allen Class-Interceptors aus DI (falls noch welche hättest)
-    //  • plus Deinem Function-Interceptor authInterceptor
+    // HttpClient with:
+    // • function-style interceptor (authInterceptor)
+    // • plus any class-based interceptors registered via DI
     provideHttpClient(
-    withInterceptors([ authInterceptor ]),
-    withInterceptorsFromDi()
-),
-  ]
+      withInterceptors([authInterceptor]),
+      withInterceptorsFromDi(),
+    ),
+  ],
 };

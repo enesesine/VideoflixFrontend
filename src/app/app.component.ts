@@ -1,9 +1,13 @@
 // src/app/app.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router, RouterOutlet, NavigationEnd } from '@angular/router';
+import {
+  RouterModule,
+  Router,
+  RouterOutlet,
+  NavigationEnd,
+} from '@angular/router';
 import { filter } from 'rxjs/operators';
-
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -14,20 +18,20 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  /** true ⇢ Header anzeigen */
+  /** When true, the sticky dashboard header is shown */
   isDashboard = false;
 
   constructor(public auth: AuthService, private router: Router) {
-    /* Route-Änderungen beobachten → Flag setzen */
+    /* Watch route changes and update the header flag */
     this.router.events
       .pipe(filter(evt => evt instanceof NavigationEnd))
       .subscribe((evt: NavigationEnd) => {
-        /* passe ggf. an, falls dein Pfad anders lautet */
+        /* Adjust the prefix if your dashboard route changes */
         this.isDashboard = evt.urlAfterRedirects.startsWith('/dashboard');
       });
   }
 
-  /** Klick-Handler für Logout */
+  /** Logout click handler */
   onLogout(): void {
     this.auth.logout().subscribe({
       next : () => this.router.navigate(['/login']),

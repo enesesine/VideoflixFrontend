@@ -25,39 +25,40 @@ export class SignupComponent implements OnInit {
   private router = inject(Router);
   private route  = inject(ActivatedRoute);
 
-  /** Validator: Passwort und Bestätigung müssen übereinstimmen */
+  /* Validator: “password” and “confirmPassword” must match */
   private passwordsMatch: ValidatorFn = (
-    group: AbstractControl
+    group: AbstractControl,
   ): ValidationErrors | null => {
     const pw  = group.get('password')?.value;
     const pw2 = group.get('confirmPassword')?.value;
     return pw && pw === pw2 ? null : { mismatch: true };
   };
 
-  /** Reactive Form */
+  /* Reactive form */
   form = this.fb.group(
     {
       email: [
         '',
         [
           Validators.required,
-          // muss "@" und danach "." mit mind. 2 Buchstaben enthalten
+          /* must contain “@”, a dot, and at least two letters afterwards */
           Validators.pattern(/^[^\s@]+@[^\s@]+\.[A-Za-z]{2,}$/),
         ],
       ],
       password:        ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', [Validators.required]],
     },
-    { validators: this.passwordsMatch }
+    { validators: this.passwordsMatch },
   );
 
-  /** UI-State */
+  /* UI state */
   showPassword        = false;
   showConfirmPassword = false;
-  serverError:   string | null = null;
+  serverError:    string | null = null;
   successMessage: string | null = null;
 
   ngOnInit(): void {
+    /* Prefill email if passed as query parameter */
     this.route.queryParams.subscribe(params => {
       if (params['email']) {
         this.form.patchValue({ email: params['email'] });
@@ -78,7 +79,7 @@ export class SignupComponent implements OnInit {
 
     this.auth.signup(email, password).subscribe({
       next: () => {
-        // ← hier kommt die grüne Success-Message
+        /* Show green success message */
         this.successMessage = 'A confirmation email is on the way.';
         this.serverError    = null;
         this.form.reset();
@@ -87,6 +88,7 @@ export class SignupComponent implements OnInit {
         const e = err as any;
         const emailErrors: string[] | undefined = e?.error?.email;
 
+        /* Check for “email already in use” pattern */
         if (
           emailErrors &&
           emailErrors.some(msg => /already exists|taken|been used/i.test(msg))
