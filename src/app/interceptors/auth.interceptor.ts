@@ -1,3 +1,9 @@
+/**
+ * HTTP interceptor that appends an `Authorization` header
+ * (`Token <jwt-token>`) to every outgoing request—except for
+ * explicitly whitelisted public endpoints (signup, login,
+ * password-reset flows).
+ */
 import { inject } from '@angular/core';
 import {
   HTTP_INTERCEPTORS,
@@ -8,8 +14,9 @@ import {
 import { AuthService } from '../services/auth.service';
 
 /**
- * Hängt – falls vorhanden – den `Authorization`-Header an,
- * aber NIE bei offenen Endpunkten (Signup, Login, Reset …).
+ * Primary interceptor implementation.
+ *  - Skips adding the header if the request URL matches one of the
+ *    open endpoints or if no token is present.
  */
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -18,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (
   const auth  = inject(AuthService);
   const token = auth.token;
 
-  /* Offene Endpunkte (Slash am Ende optional) */
+  /** Public endpoints that must remain header-free. */
   const OPEN_ENDPOINT_PATTERNS: RegExp[] = [
     /\/api\/accounts\/signup\/?$/,
     /\/api\/accounts\/signup\/verify\/?$/,
@@ -28,7 +35,7 @@ export const authInterceptor: HttpInterceptorFn = (
     /\/api\/accounts\/password\/reset\/verified\/?$/,
   ];
 
-  /* Pfad ohne Query-String prüfen */
+  /* Check the path (query string stripped) against the whitelist. */
   const urlPath = req.url.split('?')[0];
   const isOpen  = OPEN_ENDPOINT_PATTERNS.some(re => re.test(urlPath));
 
@@ -41,7 +48,7 @@ export const authInterceptor: HttpInterceptorFn = (
   return next(req);
 };
 
-/* Provider global registrieren */
+/** Register the interceptor application-wide. */
 export const authInterceptorProvider = {
   provide : HTTP_INTERCEPTORS,
   useValue: authInterceptor,

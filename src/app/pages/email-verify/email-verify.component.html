@@ -6,15 +6,16 @@
 
 <section class="hero verify">
   <div class="card">
-    <!-- Loading Spinner -->
+    <!-- Shows while verification request is in flight -->
     <div *ngIf="loading" class="spinner"></div>
 
-    <!-- Ergebnis -->
+    <!-- Result message once the request completes -->
     <ng-container *ngIf="!loading">
       <div class="icon" [class.error]="err">
         <ng-container *ngIf="ok; else fail">✔</ng-container>
         <ng-template #fail>✖</ng-template>
       </div>
+
       <h2 [class.success]="ok" [class.error]="err">
         <ng-container *ngIf="ok; else failedText">
           Your email has been confirmed!
@@ -23,6 +24,7 @@
           Verification failed or expired.
         </ng-template>
       </h2>
+
       <p class="subtext">
         <ng-container *ngIf="ok; else retryText">
           Redirecting to login…

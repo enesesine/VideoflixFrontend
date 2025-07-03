@@ -1,16 +1,12 @@
-/* =========================================================
-   Dashboard – Hero + Listen + Detail-Overlay
-   ========================================================= */
+/* Dashboard – hero, lists, detail overlay */
 
-/* ---------- Grundfarben ---------- */
+/* ---- Color variables ---- */
 :root {
-  --brand: #6b1bff;     /* Lila-Highlight */
-  --bg:    #141414;     /* Netflix-Dunkel  */
+  --brand: #6b1bff; /* purple accent */
+  --bg:    #141414; /* Netflix-like dark */
 }
 
-/* =========================================================
-   1) HERO / FEATURED
-   ========================================================= */
+/* 1) Hero / featured area */
 .featured {
   position: relative;
   height: 100vh;
@@ -18,7 +14,7 @@
   overflow: hidden;
   color: #fff;
 
-  /* Hintergrund-Video */
+  /* background video */
   .featured-bg {
     position: absolute;
     inset: 0;
@@ -28,7 +24,7 @@
     filter: brightness(.6);
   }
 
-  /* Vignette */
+  /* vignette overlay */
   .vignette {
     position: absolute;
     inset: 0;
@@ -39,7 +35,7 @@
       linear-gradient(rgba(0,0,0,0) 30%, rgba(0,0,0,.9) 100%);
   }
 
-  /* Text + Buttons */
+  /* headline, meta, buttons */
   .featured-content {
     position: absolute;
     bottom: 8%;
@@ -62,7 +58,7 @@
       font-size: .95rem;
       line-height: 1.4;
       margin-bottom: 1rem;
-      max-height: 5.5rem;            /* 3 Zeilen */
+      max-height: 5.5rem; /* three lines */
       overflow: hidden;
     }
 
@@ -95,9 +91,7 @@
   }
 }
 
-/* =========================================================
-   2) LISTEN UNTER DEM HERO
-   ========================================================= */
+/* 2) Lists below hero */
 .categories {
   margin-top: 1.5rem;
   padding-inline: 2rem;
@@ -113,7 +107,7 @@
   }
 }
 
-/* horizontale Thumbnail-Leiste */
+/* horizontal thumbnail strip */
 .thumb-strip {
   position: relative;
   display: flex;
@@ -130,7 +124,7 @@
 }
 
 .thumb-card {
-  flex: 0 0 clamp(180px, 45vw, 294px);   /* responsive Breite */
+  flex: 0 0 clamp(180px, 45vw, 294px); /* responsive width */
   position: relative;
   transition: transform .2s;
   cursor: pointer;
@@ -146,9 +140,7 @@
   }
 }
 
-/* =========================================================
-   3) DETAIL-OVERLAY
-   ========================================================= */
+/* 3) Detail overlay */
 .overlay {
   position: fixed;
   inset: 0;
@@ -200,7 +192,7 @@
     line-height: 1.35;
   }
 
-  /* Quality-Select */
+  /* quality selector */
   .quality-select {
     margin: .4rem 0 .6rem;
     display: flex;
@@ -220,7 +212,7 @@
     }
   }
 
-  /* Video.js */
+  /* Video.js skin overrides */
   .video-js {
     width: 100% !important;
     max-height: 60vh;
@@ -238,7 +230,7 @@
   }
 }
 
-/* Close-Button */
+/* close button */
 .close-btn {
   position: fixed;
   top: 18px;
@@ -251,11 +243,9 @@
   line-height: 1;
 }
 
-/* =========================================================
-   4)  Responsive Tweaks & Accessibility
-   ========================================================= */
+/* 4) Responsive tweaks & accessibility */
 
-/* ——— Mobile (≤640 px) ——— */
+/* Mobile (≤640 px) */
 @media (max-width: 640px) {
   .featured            { height: 70vh; }
   .featured-content    { bottom: 14%; }
@@ -272,13 +262,13 @@
   }
 }
 
-/* ——— 4K / Ultra-Wide (≥1920 px) ——— */
+/* 4K / ultra-wide (≥1920 px) */
 @media (min-width: 1920px) {
-  .featured-content       { max-width: 840px; }
-  .featured-content h1    { font-size: clamp(2rem, 4vw, 4rem); }
+  .featured-content    { max-width: 840px; }
+  .featured-content h1 { font-size: clamp(2rem, 4vw, 4rem); }
 }
 
-/* ——— Touch-Swipe Hinweis ——— */
+/* touch-device swipe hint */
 @media (pointer: coarse) {
   .thumb-strip::after {
     content: '‹ swipe ›';
@@ -292,12 +282,12 @@
   }
 }
 
-/* ——— Reduced-Motion Support ——— */
+/* reduced-motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
 }
 
-/* ——— Firefox Scrollbar ——— */
+/* Firefox scrollbar */
 html {
   scrollbar-width: thin;
   scrollbar-color: var(--brand) var(--bg);

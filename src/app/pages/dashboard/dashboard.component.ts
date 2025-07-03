@@ -13,7 +13,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import videojs from 'video.js';
 import { VideoApi } from '../../services/video-api';
 
-/* ────────── Typen ────────── */
+/* Types */
 interface Category {
   id: number;
   name: string;
@@ -28,16 +28,16 @@ interface Video {
   thumbnail: string | null;
   category: Category | number;
   created_at: string;
-  safeSrc?: SafeResourceUrl;
+  safeSrc?: SafeResourceUrl; // sanitized URL for binding
 }
 
 interface SrcObj {
   src: string;
   type: string;
-  label: string;
+  label: string; // shown in quality selector
 }
 
-/* ────────── Component ────────── */
+/* Component */
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -46,34 +46,34 @@ interface SrcObj {
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  /* Datencontainer */
+  /* Data */
   categories: Category[] = [];
   videos: Video[] = [];
   featuredVideo!: Video;
 
-  /* Detail-Overlay */
+  /* Overlay state */
   active: Video | null = null;
   currentSources: SrcObj[] = [];
   chosenSrc = '';
 
   @ViewChild('videoPlayer', { static: false })
   videoElement!: ElementRef<HTMLVideoElement>;
-  private player: any;  // <- hier als any
+  private player: any; // Video.js instance
 
   constructor(
     private api: VideoApi,
     private sanitizer: DomSanitizer
   ) {}
 
-  /* ---------- Lifecycle ---------- */
+  /* Lifecycle */
   ngOnInit(): void {
+    // categories
     this.api.getCategories().subscribe(cats => {
-      console.log('📂 Kategorien:', cats);
       this.categories = cats;
     });
 
+    // videos + pick featured
     this.api.getVideos().subscribe(vids => {
-      console.log('🎬 Videos:', vids);
       this.videos = vids.map(v => ({
         ...v,
         safeSrc: this.sanitizer.bypassSecurityTrustResourceUrl(v.file),
@@ -82,7 +82,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.featuredVideo =
         this.videos.find(v => this.displayCategory(v.category) === 'Anime')
         || this.videos[0];
-      console.log('⭐ featuredVideo:', this.featuredVideo);
     });
   }
 
@@ -90,7 +89,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.player?.dispose();
   }
 
-  /* ---------- Öffnen / Schließen ---------- */
+  /* Overlay handlers */
   open(video: Video): void {
     this.active = video;
     this.currentSources = this.getQualitySources(video);
@@ -106,7 +105,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         sources: [{ src: this.chosenSrc, type: 'video/mp4' }],
       });
 
-      // Wenn ein Format nicht lädt, automatisch nächste Qualität wählen
+      // if chosen quality fails, try next lower one
       this.player.on('error', () => {
         const idx = this.currentSources.findIndex(s => s.src === this.chosenSrc);
         const next = this.currentSources[idx + 1];
@@ -117,18 +116,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       });
 
-      // Fokus für ESC
+      // focus overlay for ESC key
       (document.querySelector('.overlay') as HTMLElement)?.focus();
     });
-  }
-
-  onOverlayClick(evt: MouseEvent): void {
-    if (
-      evt.target &&
-      (evt.target as HTMLElement).classList.contains('overlay')
-    ) {
-      this.close();
-    }
   }
 
   close(): void {
@@ -137,7 +127,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.player = undefined;
   }
 
-  /* ---------- Qualität wechseln ---------- */
+  /* Quality selector */
   onQualityChange(newSrc: string): void {
     if (!this.player || newSrc === this.chosenSrc) return;
 
@@ -146,13 +136,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.player.play();
   }
 
-  /* ---------- Hotkey ---------- */
+  /* Hotkey */
   @HostListener('window:keydown.escape')
   esc(): void {
     if (this.active) this.close();
   }
 
-  /* ---------- Helfer ---------- */
+  /* Helpers */
   displayCategory(cat: Category | number): string {
     return typeof cat === 'object'
       ? cat.name
@@ -165,8 +155,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ? v.category.id === catId
         : v.category === catId
     );
-  }
+  }        
 
+    /** Build a list of quality-labelled sources derived from the original file name. */
+  
   private getQualitySources(video: Video): SrcObj[] {
     return [
       { src: video.file.replace('.mp4', '_1080p.mp4'), type: 'video/mp4', label: '1080p' },

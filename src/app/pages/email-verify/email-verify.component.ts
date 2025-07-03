@@ -11,20 +11,24 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./email-verify.component.scss'],
 })
 export class EmailVerifyComponent implements OnInit {
+  /* Injected services */
   private route  = inject(ActivatedRoute);
   private auth   = inject(AuthService);
   private router = inject(Router);
 
-  loading = true;
-  ok      = false;
-  err     = false;
+  /* UI state */
+  loading = true; // while waiting for API response
+  ok      = false; // verification successful
+  err     = false; // verification failed
 
   ngOnInit(): void {
+    // verification code comes from query string
     const code = this.route.snapshot.queryParamMap.get('code')!;
     this.auth.verifyEmail(code).subscribe({
       next: () => {
         this.ok = true;
         this.loading = false;
+        // short delay, then redirect to login
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: () => {

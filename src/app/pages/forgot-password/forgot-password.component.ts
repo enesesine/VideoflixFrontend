@@ -16,26 +16,30 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterModule,   // for routerLink
+    RouterModule, // enables routerLink in template
   ],
   templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+  styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent {
+  /* Reactive form with single email field */
   readonly form: FormGroup;
-  sending = false;
-  private _success = false;
-  private _message = '';
+
+  /* UI state */
+  sending = false;          // disables button while request is in flight
+  private _success = false; // success / error flag for serverMessage
+  private _message = '';    // text shown to user after submit
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly auth: AuthService
+    private readonly auth: AuthService,
   ) {
     this.form = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
+  /* Helpers for template bindings */
   get emailCtrl(): AbstractControl {
     return this.form.get('email')!;
   }
@@ -48,8 +52,10 @@ export class ForgotPasswordComponent {
     return this._success;
   }
 
+  /* Submit handler */
   onSubmit(): void {
     if (this.form.invalid) return;
+
     this.sending = true;
     const emailValue = this.emailCtrl.value as string;
 
@@ -65,7 +71,7 @@ export class ForgotPasswordComponent {
         this._success = false;
         this._message = 'Something went wrong. Please try again later.';
         this.sending = false;
-      }
+      },
     });
   }
 }

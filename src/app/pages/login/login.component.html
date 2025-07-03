@@ -1,8 +1,11 @@
 <!-- Header -->
 <header class="header">
+  <!-- Brand logo links to sign-up page -->
   <a routerLink="/register" class="logo-link" aria-label="Go to Sign Up">
     <img src="/Logo.png" alt="Videoflix" class="logo" />
   </a>
+
+  <!-- Quick sign-up button -->
   <button class="btn signup-btn" routerLink="/register">Sign Up</button>
 </header>
 
@@ -13,9 +16,9 @@
     Please sign in to continue to <span class="highlight">Videoflix</span>.
   </p>
 
-  <!-- Form -->
+  <!-- Login form -->
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="signup-form">
-    <!-- Email -->
+    <!-- Email field -->
     <div class="input-wrapper">
       <input
         type="email"
@@ -25,12 +28,16 @@
         (blur)="emailCtrl.markAsTouched()"
       />
       <div class="error-messages" *ngIf="emailCtrl.touched && emailCtrl.invalid">
-        <small *ngIf="emailCtrl.hasError('required')">Please enter your email.</small>
-        <small *ngIf="emailCtrl.hasError('email')">Please enter a valid email address.</small>
+        <small *ngIf="emailCtrl.hasError('required')">
+          Please enter your email.
+        </small>
+        <small *ngIf="emailCtrl.hasError('email')">
+          Please enter a valid email address.
+        </small>
       </div>
     </div>
 
-    <!-- Password -->
+    <!-- Password field -->
     <div class="input-wrapper">
       <input
         type="password"
@@ -40,16 +47,19 @@
         (blur)="passwordCtrl.markAsTouched()"
       />
       <div class="error-messages" *ngIf="passwordCtrl.touched && passwordCtrl.invalid">
-        <small *ngIf="passwordCtrl.hasError('required')">Please enter your password.</small>
+        <small *ngIf="passwordCtrl.hasError('required')">
+          Please enter your password.
+        </small>
       </div>
     </div>
 
+    <!-- Submit -->
     <button type="submit" class="btn login-btn" [disabled]="form.invalid">
       Log in
     </button>
   </form>
 
-  <!-- Forgot-Password Link -->
+  <!-- Forgot-password link -->
   <a
     class="forgot-link"
     routerLink="/forgot-password"

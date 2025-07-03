@@ -1,3 +1,4 @@
+/* Root layout and background */
 :host {
   display: flex;
   flex-direction: column;
@@ -9,6 +10,7 @@
   color: #fff;
 }
 
+/* Header and footer share logo / link styling */
 .header,
 .footer {
   display: flex;
@@ -16,17 +18,25 @@
   align-items: center;
   padding: 1rem 2rem;
 
-  .logo { height: 30px; cursor: pointer; }
+  .logo {
+    height: 30px;
+    cursor: pointer;
+  }
 
   .footer a {
     margin: 0 1rem;
     color: #fff;
     text-decoration: none;
     transition: color .3s, transform .2s;
-    &:hover { color: #6b1bff; transform: translateY(-2px); }
+
+    &:hover {
+      color: #6b1bff;
+      transform: translateY(-2px);
+    }
   }
 }
 
+/* “Email verify” hero section */
 .hero.verify {
   flex: 1;
   display: flex;
@@ -43,6 +53,7 @@
     max-width: 360px;
     width: 100%;
 
+    /* Loading spinner */
     .spinner {
       width: 48px;
       height: 48px;
@@ -57,12 +68,14 @@
       font-size: 3rem;
       margin-bottom: 1rem;
       color: #4caf50;
+
       &.error { color: #e53935; }
     }
 
     h2 {
       font-size: 1.5rem;
       margin: .5rem 0;
+
       &.success { color: #4caf50; }
       &.error   { color: #e53935;  }
     }
@@ -75,7 +88,7 @@
   }
 }
 
-/* Spinner-Animation */
+/* Spinner animation */
 @keyframes spin {
   to { transform: rotate(360deg); }
 }

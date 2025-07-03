@@ -1,11 +1,16 @@
 <!-- src/app/pages/imprint/imprint.component.html -->
 <div class="header">
-    <a routerLink="/register" class="logo-link"><img src="/Logo.png" alt="Videoflix" class="logo" />    </a>
+  <!-- Logo links back to registration; login shortcut on the right -->
+  <a routerLink="/register" class="logo-link">
+    <img src="/Logo.png" alt="Videoflix" class="logo" />
+  </a>
   <button class="login-btn" routerLink="/login">Log in</button>
 </div>
 
 <div class="content">
   <h1>Impressum</h1>
+
+  <!-- Required company details (§5 TMG) -->
   <p><strong>Angaben gemäß § 5 TMG:</strong></p>
   <p>
     Videoflix GmbH<br />
@@ -14,11 +19,10 @@
     Deutschland
   </p>
   <p>
-
     Geschäftsführer: Enes Hadzic<br />
     Kontakt: <a href="mailto:contact&#64;videoflix.com">contact&#64;videoflix.com</a>
   </p>
-  <!-- Weitere Pflichtangaben nach §§ 5, 55 RStV ... -->
+  <!-- Further mandatory disclosures (§§ 5, 55 RStV) go here -->
 </div>
 
 <footer class="footer">
