@@ -22,17 +22,19 @@ A modern, responsive Netflix‑style streaming UI built with **Angular** (stand�
 
 \## Features
 
-- **Authentication flow** – register, e‑mail confirmation, login, logout, password reset (request + new password).
-- **Protected routes** with a lightweight `AuthGuard` and an HTTP interceptor that injects the `Authorization` header (Token auth).
-- **Dashboard**
-  - Hero section with autoplay background teaser.
-  - Horizontally scrollable genre rows.
-  - Modal overlay with a **Video.js** player and manual quality selector (120p – 1080p).
-- **Responsive design** – break‑points for mobile ≤360 px up to 4 K screens; touch swipe hints.
-- **Modern Angular** 
-  - Stand‑alone components & functional providers.
-  - Code‑split `email‑verify` route (lazy loaded).
-- **Clean code** – every function ≤14 LOC, single responsibility, snake\_case API names, exhaustive typing.
+* **Authentication flow** – register, e‑mail confirmation, login, logout, password reset (request + new password).
+* **Protected routes** with a lightweight `AuthGuard` and an HTTP interceptor that injects the `Authorization` header (Token auth).
+* **Dashboard**
+
+  * Hero section with autoplay background teaser.
+  * Horizontally scrollable genre rows.
+  * Modal overlay with a **Video.js** player and manual quality selector (120p – 1080p).
+* **Responsive design** – break‑points for mobile ≤360 px up to 4 K screens; touch swipe hints.
+* **Modern Angular** 
+
+  * Stand‑alone components & functional providers.
+  * Code‑split `email‑verify` route (lazy loaded).
+* **Clean code** – every function ≤14 LOC, single responsibility, snake\_case API names, exhaustive typing.
 
 ---
 
@@ -51,11 +53,11 @@ A modern, responsive Netflix‑style streaming UI built with **Angular** (stand�
 
 \## Architecture Highlights
 
-- **Folder‑by‑feature** layout: `pages/`, `services/`, `guards/`, `interceptors/`.
-- Pure **services** (`AuthService`, `VideoApi`) hold all HTTP logic; components stay dumb.
-- **Interceptor** whitelists open endpoints (signup, login, reset…) before adding the token.
-- **Dashboard** disposes and re‑creates the Video.js player on every open to avoid leaks.
-- **Global styles** hold design tokens (`--brand`, `--bg`) + scrollbar / autofill overrides.
+* **Folder‑by‑feature** layout: `pages/`, `services/`, `guards/`, `interceptors/`.
+* Pure **services** (`AuthService`, `VideoApi`) hold all HTTP logic; components stay dumb.
+* **Interceptor** whitelists open endpoints (signup, login, reset…) before adding the token.
+* **Dashboard** disposes and re‑creates the Video.js player on every open to avoid leaks.
+* **Global styles** hold design tokens (`--brand`, `--bg`) + scrollbar / autofill overrides.
 
 ---
 
@@ -76,7 +78,7 @@ $ npm install
 $ npm start               # alias for ng serve --open
 ```
 
-> The front‑end expects the Videoflix back‑end at \`\` (default Django port). Adjust the constant in `src/app/services/*` or via an environment file if needed.
+> The front‑end expects the Videoflix back‑end at \*\*[http://localhost:8000\*\*\\\`\\\`](http://localhost:8000**\`\`) (default Django port). Adjust the constant in `src/app/services/*` or via an environment file if needed.
 
 \### Building for production
 
@@ -99,26 +101,26 @@ $ npm run build           # outputs /dist with hashed filenames
 
 \## Code Style & Quality
 
-- **ESLint** enforces the Angular style guide.
-- Commit‑message convention: *feat/fix/chore(scope): short summary*.
-- PRs require CI green (lint + unit tests) before merge.
+* **ESLint** enforces the Angular style guide.
+* Commit‑message convention: *feat/fix/chore(scope): short summary*.
+* PRs require CI green (lint + unit tests) before merge.
 
 ---
 
 \## Accessibility Notes
 
-- All images have meaningful `alt` texts.
-- Forms announce errors inline; success/error banners use colour + text.
-- ESC closes dialogs; focus is moved into the overlay.
-- Further work: add `role="dialog"`, `aria-live="polite"` on toast banners.
+* All images have meaningful `alt` texts.
+* Forms announce errors inline; success/error banners use colour + text.
+* ESC closes dialogs; focus is moved into the overlay.
+* Further work: add `role="dialog"`, `aria-live="polite"` on toast banners.
 
 ---
 
 \## Roadmap / Ideas
 
-- Persist playback progress (localStorage + API endpoint).
-- Skeleton loaders while fetching dashboard data.
-- Unit tests for guards & interceptors.
-- PWA service‑worker + offline splash.
+* Persist playback progress (localStorage + API endpoint).
+* Skeleton loaders while fetching dashboard data.
+* Unit tests for guards & interceptors.
+* PWA service‑worker + offline splash.
 
-
+---
