@@ -153,19 +153,19 @@
 @media (max-width: 768px) {
   .signup-form {
     flex-direction: column;
-    align-items: stretch;   /* sorgt dafür, dass Kinder 100 % Breite nutzen */
+    align-items: stretch;  
 
-    /* Input & Button gleich breit / bündig */
+
     input,
     .login-btn {
-      flex: none;           /* flex-grow 0 – verhindert schrumpfen */
-      width: 100%;          /* volle Formularbreite (max-width: 500 px) */
+      flex: none;           
+      width: 100%;        
       box-sizing: border-box;
     }
 
-    /* optional: etwas Abstand zwischen den Feldern */
+    
     .login-btn {
-      margin-top: .5rem;    /* statt des ursprünglichen flex-gap */
+      margin-top: .5rem;    
     }
   }
 }
