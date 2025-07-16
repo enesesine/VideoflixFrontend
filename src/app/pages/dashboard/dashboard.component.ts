@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   @ViewChild('videoPlayer', { static: false })
   videoElement!: ElementRef<HTMLVideoElement>;
-  private player: any; // Video.js instance
+  private player: any | undefined; 
 
   constructor(
     private api: VideoApi,
@@ -67,21 +67,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   /* Lifecycle */
   ngOnInit(): void {
-    // categories
-    this.api.getCategories().subscribe(cats => {
-      this.categories = cats;
-    });
+    // load categories
+    this.api.getCategories().subscribe(cats => (this.categories = cats));
 
-    // videos + pick featured
+    // load videos + pick featured
     this.api.getVideos().subscribe(vids => {
       this.videos = vids.map(v => ({
         ...v,
         safeSrc: this.sanitizer.bypassSecurityTrustResourceUrl(v.file),
       }));
-
       this.featuredVideo =
-        this.videos.find(v => this.displayCategory(v.category) === 'Anime')
-        || this.videos[0];
+        this.videos.find(v => this.displayCategory(v.category) === 'Anime') ||
+        this.videos[0];
     });
   }
 
@@ -91,32 +88,51 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   /* Overlay handlers */
   open(video: Video): void {
+    // Dispose any existing player immediately
+    if (this.player) {
+      this.player.dispose();
+      this.player = undefined;
+    }
+
+    // set new active video & sources
     this.active = video;
     this.currentSources = this.getQualitySources(video);
-    this.chosenSrc = this.currentSources[0].src;
+    this.chosenSrc = this.currentSources[0]?.src || '';
 
+    // wait for the DOM to render the <video> tag inside *ngIf
     setTimeout(() => {
-      this.player?.dispose();
+      // guard: no sources at all?
+      if (!this.chosenSrc) {
+        console.warn('No video sources found for', video);
+        return;
+      }
+      // guard: make sure the element exists
+      const el = this.videoElement?.nativeElement;
+      if (!el) {
+        console.error('Video element not found in DOM');
+        return;
+      }
 
-      this.player = videojs(this.videoElement.nativeElement, {
+      // initialize Video.js
+      this.player = videojs(el, {
         controls: true,
         preload: 'auto',
         fluid: true,
         sources: [{ src: this.chosenSrc, type: 'video/mp4' }],
       });
 
-      // if chosen quality fails, try next lower one
+      // on error, fall back to next lower quality
       this.player.on('error', () => {
         const idx = this.currentSources.findIndex(s => s.src === this.chosenSrc);
         const next = this.currentSources[idx + 1];
         if (next) {
           this.chosenSrc = next.src;
-          this.player.src({ src: this.chosenSrc, type: next.type });
-          this.player.play();
+          this.player?.src({ src: next.src, type: next.type });
+          this.player?.play();
         }
       });
 
-      // focus overlay for ESC key
+      // focus overlay for ESC
       (document.querySelector('.overlay') as HTMLElement)?.focus();
     });
   }
@@ -130,9 +146,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   /* Quality selector */
   onQualityChange(newSrc: string): void {
     if (!this.player || newSrc === this.chosenSrc) return;
-
     this.chosenSrc = newSrc;
-    this.player.src({ src: this.chosenSrc, type: 'video/mp4' });
+    this.player.src({ src: newSrc, type: 'video/mp4' });
     this.player.play();
   }
 
@@ -155,10 +170,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
         ? v.category.id === catId
         : v.category === catId
     );
-  }        
+  }
 
-    /** Build a list of quality-labelled sources derived from the original file name. */
-  
+  /** Build a list of quality-labelled sources derived from the original filename. */
   private getQualitySources(video: Video): SrcObj[] {
     return [
       { src: video.file.replace('.mp4', '_1080p.mp4'), type: 'video/mp4', label: '1080p' },

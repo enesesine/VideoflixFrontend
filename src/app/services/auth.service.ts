@@ -10,7 +10,7 @@ interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   /* Base URL for all authentication-related endpoints */
-  private readonly apiUrl    = 'http://localhost:8000/api/accounts';
+  private readonly apiUrl = 'https://enes-hadzic.developerakademie.org/api/accounts';
   private readonly TOKEN_KEY = 'videoflix_token';
 
   constructor(private http: HttpClient) {}

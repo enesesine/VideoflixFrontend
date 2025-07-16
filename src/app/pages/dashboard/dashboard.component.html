@@ -2,36 +2,21 @@
 
 <!-- Featured video -->
 <div class="featured" *ngIf="featuredVideo">
-  <!-- Silent background teaser -->
   <video
     class="featured-bg"
-    [src]="featuredVideo.safeSrc"
-    autoplay
-    muted
-    loop
-    playsinline
+    [src]="featuredVideo.file"
+    autoplay muted loop playsinline
   ></video>
-
-  <!-- Vignette overlay for better contrast -->
   <div class="vignette"></div>
-
-  <!-- Title, meta and action buttons -->
   <div class="featured-content">
     <h1>{{ featuredVideo.title }}</h1>
-
-    <p class="meta">
-      Genre: {{ displayCategory(featuredVideo.category) }}
-    </p>
-
+    <p class="meta">Genre: {{ displayCategory(featuredVideo.category) }}</p>
     <p class="description">
       {{ featuredVideo.description || 'Keine Beschreibung hinterlegt.' }}
     </p>
-
     <div class="btn-group">
       <button class="btn play-btn" (click)="open(featuredVideo)">Play</button>
-      <button class="btn info-btn" (click)="open(featuredVideo)">
-        More&nbsp;Info
-      </button>
+      <button class="btn info-btn" (click)="open(featuredVideo)">More Info</button>
     </div>
   </div>
 </div>
@@ -40,17 +25,13 @@
 <div class="categories">
   <div *ngFor="let cat of categories" class="genre-row">
     <h2>{{ cat.name }}</h2>
-
     <div class="thumb-strip">
       <div
         *ngFor="let vid of videosByCategory(cat.id)"
         class="thumb-card"
         (click)="open(vid)"
       >
-        <img
-          [src]="vid.thumbnail || 'assets/placeholder.jpg'"
-          alt="{{ vid.title }}"
-        />
+        <img [src]="vid.thumbnail || 'assets/placeholder.jpg'" [alt]="vid.title" />
       </div>
     </div>
   </div>
@@ -64,26 +45,23 @@
   (click)="close()"
   (keydown.escape)="close()"
 >
-  <!-- Prevent overlay from closing when clicking inside -->
   <div class="detail-box" (click)="$event.stopPropagation()">
     <img
       class="thumb-large"
       [src]="active.thumbnail || 'assets/placeholder.jpg'"
-      alt="{{ active.title }}"
+      [alt]="active.title"
     />
-
     <div class="info-row">
       <h1>{{ active.title }}</h1>
       <p class="meta">Genre: {{ displayCategory(active.category) }}</p>
     </div>
-
     <p class="description">
       <strong>Description:</strong><br />
       {{ active.description || 'Keine Beschreibung hinterlegt.' }}
     </p>
 
-    <!-- Manual quality selector -->
-    <div class="quality-select" *ngIf="currentSources.length">
+    <!-- Only show selector if there are sources -->
+    <div class="quality-select" *ngIf="currentSources?.length">
       <label for="quality">Quality:&nbsp;</label>
       <select
         id="quality"
@@ -96,7 +74,6 @@
       </select>
     </div>
 
-    <!-- Video.js player container -->
     <video
       #videoPlayer
       id="video-player"
@@ -107,7 +84,5 @@
       height="auto"
     ></video>
   </div>
-
-  <!-- Close overlay button -->
   <button class="close-btn" (click)="close()">×</button>
 </div>
